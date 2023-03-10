@@ -1,0 +1,22 @@
+{
+  "name": "dao-vs-dao",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently -k -c auto \"npm:run-*\"",
+    "run-dapp": "cd dapp && npm i && npm run dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dao-vs-dao/platform.git"
+  },
+  "author": "Dottyland",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dao-vs-dao/platform/issues"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
+}
