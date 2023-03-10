@@ -1,0 +1,39 @@
+:root {
+    /* Grayscale */
+    --grey-900: #111213;
+    --grey-800: #1d1e1b;
+    --grey-700: #292929;
+    --grey-600: #5e636e;
+    --grey-500: #8f96a3;
+    --grey-400: #c2c9d6;
+    --grey-300: #dee3ed;
+    --grey-200: #f1f3f9;
+    --grey-100: #f8f9fc;
+
+    --background: #0A0016;
+    --black: var(--grey-900);
+    --white: var(--grey-100);
+    --beige-light: #F6EAE1;
+
+    /* Pyramid */
+    --l0: #862e9c;
+    --l1: #5f3dc4;
+    --l2: #364fc7;
+    --l3: #1864ab;
+    --l4: #0b7285;
+    --l5: #087f5b;
+    --l6: #2b8a3e;
+    --l7: #5c940d;
+
+    /* Toasts */
+    --toastify-color-success: #1B9D51;
+    --toastify-color-warning: #FFBA08;
+    --toastify-color-error: #dd0143;
+    --toastify-color-info: #3F88C5;
+    --toastify-color-light: linear-gradient(90deg, #B8F1C6 -0.32%, #EBF8A1 99.68%);
+
+    /* Fonts */
+    --regular: Raleway-Regular;
+    --medium: Raleway-Medium;
+    --bold: Raleway-Bold;
+}

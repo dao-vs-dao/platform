@@ -1,0 +1,61 @@
+.pyramid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    user-select: none;
+}
+
+.pyramid__row {
+    display: flex;
+    flex-direction: row;
+}
+
+.pyramid__row--push-up {
+    margin-top: -43px;
+}
+
+.cell {
+    position: relative;
+    height: 100px;
+    width: 82px;
+}
+
+
+.cell__content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100px;
+    width: 82px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.cell__hovering-surface {
+    cursor: pointer;
+}
+
+.cell__hovering-surface:hover .cell__fillable {
+    fill: #fff1;
+}
+
+.cell--selected .cell__fillable {
+    fill: #ffffff18 !important;
+}
+
+.cell__content--highlighted {
+    font-weight: bold;
+}
+
+.cell__address {
+    font-size: 0.95rem;
+    filter: brightness(1.5);
+}
+
+.cell__worth {
+    font-size: 0.90rem;
+    filter: brightness(1.5);
+}

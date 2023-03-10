@@ -1,0 +1,19 @@
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    row-gap: 40px;
+    margin-top: 15px;
+}
+
+.dashboard__main {
+    display: grid;
+    grid-template-columns: 30fr 15fr;
+    column-gap: 40px;
+}
+
+@media only screen and (max-width: 1000px) {
+    .dashboard__main {
+        grid-template-columns: auto;
+        row-gap: 40px;
+    }
+}

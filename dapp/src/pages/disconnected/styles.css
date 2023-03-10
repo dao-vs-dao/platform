@@ -1,0 +1,16 @@
+.disconnected-page {
+    max-width: 900px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 100px auto;
+    text-align: center;
+}
+
+.disconnected-page__title {
+    margin: 0px;
+    font-family: var(--medium);
+    font-size: 2.5rem;
+    line-height: 150%;
+}
