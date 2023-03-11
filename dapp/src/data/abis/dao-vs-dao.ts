@@ -528,11 +528,6 @@ export const DaoVsDaoAbi = [
                 internalType: "struct Coordinates",
                 name: "_coord",
                 type: "tuple"
-            },
-            {
-                internalType: "bool",
-                name: "_addRow",
-                type: "bool"
             }
         ],
         name: "placeUser",
