@@ -14,12 +14,43 @@
     margin-top: -43px;
 }
 
+/* Cell */
+
 .cell {
     position: relative;
     height: 100px;
     width: 82px;
 }
 
+.cell__hovering-surface {
+    /* Adjusted to fit the rhomboid as closely as possible */
+    height: 70px;
+    width: 70px;
+    transform: rotate(45deg) scaleX(0.85) scaleY(0.85);
+    border-radius: 100%;
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    left: 7px;
+    z-index: 10;
+}
+
+.cell__hovering-surface:hover + svg .cell__fillable {
+    fill: #fff1;
+}
+
+.cell--selected .cell__fillable {
+    fill: #ffffff18 !important;
+}
+
+/*
+.cell__hovering-surface:hover .cell__fillable {
+    fill: #fff1;
+}
+
+.cell--selected .cell__fillable {
+    fill: #ffffff18 !important;
+} */
 
 .cell__content {
     position: absolute;
@@ -32,18 +63,6 @@
     align-items: center;
     justify-content: center;
     pointer-events: none;
-}
-
-.cell__hovering-surface {
-    cursor: pointer;
-}
-
-.cell__hovering-surface:hover .cell__fillable {
-    fill: #fff1;
-}
-
-.cell--selected .cell__fillable {
-    fill: #ffffff18 !important;
 }
 
 .cell__content--highlighted {

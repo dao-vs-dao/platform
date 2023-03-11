@@ -15,7 +15,7 @@ interface ICellProps {
 }
 
 const defaultColor = "#49505722";
-const levelColors: { [distanceToTop: number]: string } = {
+const levelColors: { [distanceToTop: number]: string; } = {
     0: "#862e9c",
     1: "#5f3dc4",
     2: "#364fc7",
@@ -52,10 +52,14 @@ export const Cell = ({ coords }: ICellProps) => {
     return (
         <div
             className={`cell ${isSelected ? "cell--selected" : ""}`}
-            style={{ zIndex: 100 - distanceToTop }}
+            // style={{ zIndex: 100 - distanceToTop }}
         >
+            {/* Clickable component */}
+            {canHover ? <div className="cell__hovering-surface" onClick={selectCell} /> : null}
+
+            {/* Cell graphic */}
             <svg version="1.1" viewBox="0 0 80.536 98.214">
-                <g className={`${canHover ? "cell__hovering-surface" : ""}`} onClick={selectCell}>
+                <g>
                     <rect
                         className="cell__fillable"
                         transform="matrix(.63408 -.77327 .63408 .77327 0 0)"
@@ -78,6 +82,7 @@ export const Cell = ({ coords }: ICellProps) => {
                 </g>
             </svg>
 
+            {/* Cell content  */}
             {cellPlayer ? (
                 <div
                     className={`cell__content ${isLocalPlayerCell && "cell__content--highlighted"}`}
