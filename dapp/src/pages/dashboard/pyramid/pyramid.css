@@ -36,21 +36,12 @@
 }
 
 .cell__hovering-surface:hover + svg .cell__fillable {
-    fill: #fff1;
+    filter: brightness(2);
 }
 
-.cell--selected .cell__fillable {
-    fill: #ffffff18 !important;
+.cell__hovering-surface:hover ~ .cell__content {
+    filter: brightness(2);
 }
-
-/*
-.cell__hovering-surface:hover .cell__fillable {
-    fill: #fff1;
-}
-
-.cell--selected .cell__fillable {
-    fill: #ffffff18 !important;
-} */
 
 .cell__content {
     position: absolute;

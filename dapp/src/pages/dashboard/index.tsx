@@ -6,7 +6,6 @@ import { fetchGameData, fetchPlayerData } from "../../data/data-fetcher";
 import { setGameData } from "../../state/slices/game-slice";
 import { setCurrentPlayer } from "../../state/slices/player-slice";
 import { Pyramid } from "./pyramid";
-import { Stats } from "./stats";
 import "./styles.css";
 
 export const Dashboard = () => {
@@ -19,8 +18,7 @@ export const Dashboard = () => {
         dispatch(setGameData({ gameData }));
 
         const currentPlayer = address ? await fetchPlayerData(provider, address) : null;
-        dispatch(setCurrentPlayer({currentPlayer}))
-        console.log(gameData)
+        dispatch(setCurrentPlayer({ currentPlayer }));
     };
 
     useEffect(() => {
@@ -29,10 +27,7 @@ export const Dashboard = () => {
 
     return (
         <div className="dashboard">
-            <div className="dashboard__main">
-                <Pyramid />
-                <Stats />
-            </div>
+            <Pyramid />
         </div>
     );
 };

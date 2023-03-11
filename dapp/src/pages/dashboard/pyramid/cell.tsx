@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useAccount } from "wagmi";
 import { coordToString, ICoords } from "../../../@types/i-coords";
 
 import { calculateWorth } from "../../../@types/i-player";
+import { CellPanel } from "../../../components/cellPanel";
 import { compactAddress } from "../../../data/compact-address";
 import { setSelectedCoords } from "../../../state/slices/player-slice";
 import { RootState } from "../../../state/store";
@@ -29,6 +30,7 @@ const levelColors: { [distanceToTop: number]: string; } = {
 export const Cell = ({ coords }: ICellProps) => {
     const dispatch = useDispatch();
     const { address } = useAccount();
+    const animationDuration = useRef(Math.random() * 5 + 5);
     const distanceToTop = coords.row;
     const selectedCoords = useSelector((state: RootState) => state.player.selectedCoords);
     const strCoords = coordToString(coords);
@@ -37,25 +39,20 @@ export const Cell = ({ coords }: ICellProps) => {
     const playersFromCoords = useSelector((state: RootState) => state.game.playersByCoords);
     const cellPlayer = playersFromCoords[strCoords];
     const isLocalPlayerCell = cellPlayer?.userAddress === address;
-    const canHover = !isLocalPlayerCell;
 
     const cellTextColor = isLocalPlayerCell ? "#000" : `var(--l${distanceToTop})`;
-    const fillColor = isLocalPlayerCell ? levelColors[distanceToTop] ?? defaultColor : "#0000";
+    const fillColor = isLocalPlayerCell ? levelColors[distanceToTop] ?? defaultColor : isSelected ? "#fff1" : "#0000";
     const strokeColor = levelColors[distanceToTop] ?? defaultColor;
 
     const selectCell = () => {
-        if (isLocalPlayerCell) return; // cannot select the player cell
         const selectedCoords = isSelected ? undefined : coordToString(coords);
         dispatch(setSelectedCoords({ coords: selectedCoords }));
     };
 
     return (
-        <div
-            className={`cell ${isSelected ? "cell--selected" : ""}`}
-            // style={{ zIndex: 100 - distanceToTop }}
-        >
+        <div className={`cell ${isSelected ? "cell--selected" : ""} ${isLocalPlayerCell ? "cell--local" : ""}`}>
             {/* Clickable component */}
-            {canHover ? <div className="cell__hovering-surface" onClick={selectCell} /> : null}
+            <div className="cell__hovering-surface" onClick={selectCell} />
 
             {/* Cell graphic */}
             <svg version="1.1" viewBox="0 0 80.536 98.214">
@@ -74,8 +71,8 @@ export const Cell = ({ coords }: ICellProps) => {
                     >
                         {/* <animate
                             attributeName="stroke"
-                            values={`${strokeColor}; ${strokeColor}60; ${strokeColor};`}
-                            dur={`${Math.random() * 5 + 5}s`}
+                            values={`${strokeColor}; ${strokeColor}70; ${strokeColor};`}
+                            dur={`${animationDuration.current}s`}
                             repeatCount="indefinite"
                         /> */}
                     </rect>
@@ -95,6 +92,11 @@ export const Cell = ({ coords }: ICellProps) => {
                     </div>
                 </div>
             ) : null}
+
+            {/* Cell details panel */}
+            {
+                !isSelected ? null : <CellPanel color={strokeColor} coords={coords} player={cellPlayer} />
+            }
         </div>
     );
 };
