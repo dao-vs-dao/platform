@@ -72,9 +72,10 @@ const PlayerPanel = ({ player, color }: { player: IPlayer; color: string; }) => 
             <div className="cell-stats__row">
                 <div className="cell-stats__label">
                     <Tooltip iconComponent={<div className="cell-stats__tooltip-label">Balance</div>}>
-                        The amount of DVD owned by a player is their balance.
+                        The amount of DVD owned by a player.
                         <br /><br />
-                        A player can use their balance to sponsor other players
+                        A player can use their balance to sponsor other players,
+                        or transfer it, as any other ERC20.
                     </Tooltip>
                 </div>
                 <div className="cell-stats__value">{player.balance} DVD</div>
@@ -97,7 +98,7 @@ const PlayerPanel = ({ player, color }: { player: IPlayer; color: string; }) => 
             <div className="cell-stats__row">
                 <div className="cell-stats__label">
                     <Tooltip iconComponent={<div className="cell-stats__tooltip-label">Claimable</div>}>
-                        The amount of DVD that can be claimed and moved
+                        The amount of accrued DVD that can be moved
                         to the balance.
                         <br /><br />
                         The amount of earned DVD depends on how high
