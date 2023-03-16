@@ -1,5 +1,4 @@
 import { ethers, providers, Signer } from "ethers";
-import { coordsFromBigNumber } from "../@types/i-coords";
 import { IGame } from "../@types/i-game";
 import { BNToPOJOPlayer, IPlayer } from "../@types/i-player";
 import { DaoVsDaoAbi } from "./abis/dao-vs-dao";
@@ -32,4 +31,14 @@ export const fetchPlayerData = async (
     } catch (error) {
         return null;
     }
+};
+
+/**
+ * Claim the accrued tokens.
+ * @dev Should be wrapped in trycatch and a promise toast.
+ */
+export const claimTokens = async (signer: Signer): Promise<void> => {
+    const daoVsDao = new ethers.Contract(getContractAddress(), DaoVsDaoAbi, signer);
+    const tx = await daoVsDao.claimTokens();
+    await tx.wait();
 };
