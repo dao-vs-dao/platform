@@ -3,6 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { IPlayer } from "../../@types/i-player";
 
 export type PlayerState = {
+    authAddress?: string;
     currentPlayer?: IPlayer | null;
     selectedCoords?: string;
 };
@@ -13,6 +14,9 @@ export const playerSlice = createSlice({
     name: "player",
     initialState,
     reducers: {
+        setAuthAddress: (state, action: PayloadAction<{ authAddress?: string }>) => {
+            state.authAddress = action.payload.authAddress;
+        },
         setCurrentPlayer: (state, action: PayloadAction<{ currentPlayer: IPlayer | null }>) => {
             state.currentPlayer = action.payload.currentPlayer;
         },
@@ -22,5 +26,5 @@ export const playerSlice = createSlice({
     }
 });
 
-export const { setCurrentPlayer, setSelectedCoords } = playerSlice.actions;
+export const { setCurrentPlayer, setSelectedCoords, setAuthAddress } = playerSlice.actions;
 export default playerSlice.reducer;
