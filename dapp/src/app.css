@@ -25,6 +25,13 @@ body {
     justify-content: space-between;
 }
 
+.header__wallet-control {
+    display: flex;
+    flex-direction: row;
+    column-gap: 20px;
+    align-items: center;
+}
+
 .test-environment-warning {
     height: 50px;
     width: 100%;

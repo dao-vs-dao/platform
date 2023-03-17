@@ -68,9 +68,8 @@ const EmptyCellPanel = ({ coords, color }: { coords: ICoords; color: string; }) 
         }
 
         try {
-            let referrer = searchParams.get("referrer");
+            let referrer = searchParams.get("referral");
             referrer = isValidEthereumAddress(referrer) ? referrer : null;
-            setSearchParams("");
 
             const promise = placeUser(signer, coords, referrer ?? undefined)
                 .then(() => retrieveGameState(dispatch, provider, address));
@@ -80,6 +79,7 @@ const EmptyCellPanel = ({ coords, color }: { coords: ICoords; color: string; }) 
                 `Teleporting you to [${coords.row},${coords.column}]`,
                 "You are now a player of Dao Vs Dao!"
             );
+            setSearchParams("");
         } catch (error) {
             if (JSON.stringify(error).includes("insufficient funds for gas")) {
                 // user doesn't have enough funds

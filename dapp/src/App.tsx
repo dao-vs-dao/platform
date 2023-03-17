@@ -18,6 +18,7 @@ import "./app.css";
 import "./shared.css";
 import { WrongChainPage } from "./pages/error-pages/wrong-chain";
 import { getLoggedUser } from "./services/authentication";
+import { ReferralLink } from "./components/referral";
 
 export const App = ({ children }: { children: any; }) => {
     const dispatch = useDispatch();
@@ -60,8 +61,9 @@ export const App = ({ children }: { children: any; }) => {
         <>
             {/* Header */}
             <div className="header">
-                <img src={logo} alt="DaoVsDao logo" className="page-logo" />
-                <div className="wallet-control">
+                <img src={logo} alt="DaoVsDao logo" className="header__page-logo" />
+                <div className="header__wallet-control">
+                    <ReferralLink />
                     <Web3Button />
                 </div>
             </div>

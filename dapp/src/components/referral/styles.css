@@ -1,0 +1,29 @@
+@keyframes gradient-animation {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.referral-link {
+    cursor: pointer;
+    font-size: 1.15rem;
+    font-weight: bold;
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    background-image: linear-gradient(to right, #862e9c, #00abfb);
+    background-size: 300% 200%;
+    animation: gradient-animation 6s ease-in-out infinite;
+}
+
+.referral-link:hover {
+    text-decoration: underline;
+}
