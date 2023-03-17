@@ -1,35 +1,63 @@
-import React from "react";
-import { EthereumClient, w3mConnectors, w3mProvider } from "@web3modal/ethereum";
-import { Web3Modal } from "@web3modal/react";
-import { configureChains, createClient, useAccount, WagmiConfig } from "wagmi";
-import { polygon, polygonMumbai } from "wagmi/chains";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Web3Button } from "@web3modal/react";
+import { polygon, polygonMumbai } from "wagmi/chains";
+import { useAccount, useNetwork } from "wagmi";
 
+import { RootState } from "./state/store";
+import { setAuthAddress } from "./state/slices/player-slice";
 import { ToastContainer } from "react-toastify";
-import { Disconnected } from "./pages/disconnected";
+import { UnauthenticatedPage } from "./pages/error-pages/unlogged";
+import { DisconnectedPage } from "./pages/error-pages/disconnected";
 import logo from "./assets/logo.svg";
 import "react-toastify/dist/ReactToastify.css";
 import "./fonts.css";
 import "./constants.css";
 import "./app.css";
 import "./shared.css";
+import { WrongChainPage } from "./pages/error-pages/wrong-chain";
+import { getLoggedUser } from "./services/authentication";
 
-// wallet config
-const chains: any = true ? [polygonMumbai] : [polygon];
-const projectId = "c163ea8f4790cd069a88fef24f76f3f7";
-const { provider } = configureChains(chains, [w3mProvider({ projectId })]);
-const wagmiClient = createClient({
-    autoConnect: true,
-    connectors: w3mConnectors({ projectId, version: 1, chains }) as any,
-    provider
-});
-const ethereumClient = new EthereumClient(wagmiClient, chains);
-
-export const App = ({ children }: { children: any }) => {
+export const App = ({ children }: { children: any; }) => {
+    const dispatch = useDispatch();
+    const { chain } = useNetwork();
     const { address, isConnected } = useAccount();
+    const [authChecked, setAuthChecked] = useState<boolean>(false);
+    const authAddress = useSelector((state: RootState) => state.player.authAddress);
+
+    const chainToUse = true ? polygonMumbai : polygon;
+    const isWrongChain = !!chain && chain.id !== chainToUse.id;
+
+    const checkAuthentication = async () => {
+        setAuthChecked(false);
+
+        if (!address) {
+            dispatch(setAuthAddress({ authAddress: undefined }));
+            return;
+        }
+
+        // fetch the logged user and the user associated to the connected address
+        // we will compare the two and trigger different actions depending on them
+        const loggedUser = await getLoggedUser();
+        if (loggedUser && loggedUser.address === address) {
+            // address belongs to the logged user, all good
+            dispatch(setAuthAddress({ authAddress: loggedUser.address }));
+        } else {
+            // address does not belongs to the logged user
+            // we will need to show the auth screen
+            dispatch(setAuthAddress({ authAddress: undefined }));
+        }
+
+        setAuthChecked(true);
+    };
+
+    useEffect(() => {
+        checkAuthentication();
+    }, [address]);
 
     return (
-        <WagmiConfig client={wagmiClient}>
+        <>
             {/* Header */}
             <div className="header">
                 <img src={logo} alt="DaoVsDao logo" className="page-logo" />
@@ -47,11 +75,18 @@ export const App = ({ children }: { children: any }) => {
 
             {/* Page */}
             <div className="page">
-                {address && isConnected ? children : <Disconnected />}
+                {!address || !isConnected
+                    ? <DisconnectedPage />
+                    : !authChecked
+                        ? null
+                        : !authAddress
+                            ? <UnauthenticatedPage />
+                            : isWrongChain
+                                ? <WrongChainPage chainToUse={chainToUse} />
+                                : children
+                }
             </div>
-
             <ToastContainer theme="colored" />
-            <Web3Modal projectId={projectId} ethereumClient={ethereumClient} themeMode="dark" />
-        </WagmiConfig>
+        </>
     );
 };
