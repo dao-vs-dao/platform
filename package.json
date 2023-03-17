@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "concurrently -k -c auto \"npm:run-*\"",
+    "run-mongoDb": "docker-compose up > mongo-output.txt 2>&1",
     "run-dapp": "cd dapp && npm i && npm run dev",
     "run-backend": "cd backend && npm i && npm run dev"
   },
