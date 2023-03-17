@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useAccount, useProvider } from "wagmi";
 
-import { fetchGameData, fetchPlayerData } from "../../data/data-fetcher";
+import { fetchGameData, fetchPlayerData } from "../../data/dao-vs-dao-contract";
 import { setGameData } from "../../state/slices/game-slice";
 import { setCurrentPlayer } from "../../state/slices/player-slice";
 import { Pyramid } from "./pyramid";

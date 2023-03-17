@@ -1,11 +1,15 @@
 import { ethers, providers, Signer } from "ethers";
+import { ICoords } from "../@types/i-coords";
 import { IGame } from "../@types/i-game";
 import { BNToPOJOPlayer, IPlayer } from "../@types/i-player";
 import { DaoVsDaoAbi } from "./abis/dao-vs-dao";
+import { bigNumberToFloat } from "./big-number-to-float";
 
 const POLYGON_DVD_ADDRESS = "0xAcd88F72B980ed144c7C037F6807E39026CFFd15";
 const MUMBAI_DVD_ADDRESS = "0xAcd88F72B980ed144c7C037F6807E39026CFFd15";
 const getContractAddress = () => (true ? MUMBAI_DVD_ADDRESS : POLYGON_DVD_ADDRESS);
+
+const zeroAddress = "0x0000000000000000000000000000000000000000";
 
 /**
  * Fetch the global state of the game
@@ -41,4 +45,33 @@ export const claimTokens = async (signer: Signer): Promise<void> => {
     const daoVsDao = new ethers.Contract(getContractAddress(), DaoVsDaoAbi, signer);
     const tx = await daoVsDao.claimTokens();
     await tx.wait();
+};
+
+/**
+ * Adds the user to the game
+ * @dev Should be wrapped in trycatch and a promise toast.
+ * @param signer The signer that will be used to trigger the tx.
+ * @param coords The point in which the user wants to start.
+ * @param referrer The player that referred this user.
+ */
+export const placeUser = async (
+    signer: Signer,
+    coords: ICoords,
+    referrer?: string
+): Promise<void> => {
+    referrer = referrer ?? zeroAddress;
+    const daoVsDao = new ethers.Contract(getContractAddress(), DaoVsDaoAbi, signer);
+    const participationFee = await daoVsDao.participationFee();
+
+    const tx = await daoVsDao.placeUser(coords, referrer, { value: participationFee });
+    await tx.wait();
+};
+
+/**
+ * Retrieve the current participation fee
+ */
+export const fetchParticipationFee = async (provider: providers.Provider): Promise<number> => {
+    const daoVsDao = new ethers.Contract(getContractAddress(), DaoVsDaoAbi, provider);
+    const participationFee = await daoVsDao.participationFee();
+    return bigNumberToFloat(participationFee);
 };
