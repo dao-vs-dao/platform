@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "concurrently -k -c auto \"npm:run-*\"",
-    "run-dapp": "cd dapp && npm i && npm run dev"
+    "run-dapp": "cd dapp && npm i && npm run dev",
+    "run-backend": "cd backend && npm i && npm run dev"
   },
   "repository": {
     "type": "git",

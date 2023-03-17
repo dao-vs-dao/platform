@@ -1,11 +1,10 @@
 import { ethers } from "ethers";
 
 import { DaoVsDaoAbi } from "./ABIs/dao-vs-dao";
-import { getProvider, Chains } from "./providers-builder";
+import { getProvider } from "./providers-builder";
 
 const getDVDContract = (): ethers.Contract => {
-    const isProduction = process.env.INSTANCE_TYPE === "production";
-    const provider = getProvider(isProduction ? Chains.Polygon : Chains.Mumbai);
+    const provider = getProvider();
     return new ethers.Contract(process.env.DVD_ADDRESS!, DaoVsDaoAbi, provider);
 };
 

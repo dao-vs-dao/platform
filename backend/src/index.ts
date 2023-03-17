@@ -10,8 +10,9 @@ if (!process.env.SESSION_SECRET) throw new Error("SESSION_SECRET was not set");
 if (!process.env.ENCRYPTION_SECRET) throw new Error("ENCRYPTION_SECRET was not set");
 if (!process.env.MONGO_DB_CONN_STRING) throw new Error("MONGO_DB_CONN_STRING was not set");
 
-if (!process.env.POLYGON_RPC) throw new Error("POLYGON_RPC was not set");
-if (!process.env.MUMBAI_RPC) throw new Error("MUMBAI_RPC was not set");
+if (!process.env.DVD_ADDRESS) throw new Error("DVD_ADDRESS was not set");
+if (!process.env.INSTANCE_TYPE) throw new Error("INSTANCE_TYPE was not set");
+if (!process.env.RPC_URL) throw new Error("RPC_URL was not set");
 
 import mongoose from "mongoose";
 import { app } from "./app";
