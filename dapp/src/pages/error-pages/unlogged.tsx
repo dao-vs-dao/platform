@@ -10,7 +10,7 @@ import "./styles.css";
 export const UnauthenticatedPage = () => {
     const dispatch = useDispatch();
     const { address } = useAccount();
-    const { data: signer, isError: isSignerError } = useSigner()
+    const { data: signer, isError: isSignerError } = useSigner();
 
     const triggerLogin = async () => {
         if (!address) {
@@ -37,9 +37,13 @@ export const UnauthenticatedPage = () => {
 
     return (
         <div className="disconnected-page">
-            <div className="disconnected-page__title">Now you must authenticate</div>
+            <div className="disconnected-page__title typewriter">Now you must authenticate</div>
             <br /><br />
-            <button onClick={triggerLogin}>Authenticate</button>
+            <button
+                className="button"
+                onClick={triggerLogin}>
+                Authenticate
+            </button>
         </div>
     );
 };

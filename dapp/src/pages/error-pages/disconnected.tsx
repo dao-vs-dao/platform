@@ -6,7 +6,7 @@ import "./styles.css";
 export const DisconnectedPage = () => {
     return (
         <div className="disconnected-page">
-            <div className="disconnected-page__title">Connect your wallet bro</div>
+            <div className="disconnected-page__title typewriter">Connect your wallet</div>
             <br /><br />
             <Web3Button />
         </div>
