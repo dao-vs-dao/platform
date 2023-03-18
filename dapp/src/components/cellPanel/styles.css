@@ -23,8 +23,11 @@
 .cell-stats__title {
     font-weight: bold;
     font-size: 1.25rem;
-    margin-bottom: 10px;
     filter: brightness(1.65);
+}
+
+.cell-stats__space {
+    margin-bottom: 10px;
 }
 
 .cell-stats__subtitle {

@@ -9,7 +9,7 @@ export interface IPlayer {
     claimable: number;
 }
 
-const roundAtFifthDecimal = (n: number) => Math.round(n * 100000) / 100000;
+export const roundAtFifthDecimal = (n: number) => Math.round(n * 100000) / 100000;
 
 /** The worth of the player (balance + sponsorships + claimable) */
 export const calculateWorth = (player: IPlayer) =>

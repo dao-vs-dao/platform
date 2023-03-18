@@ -37,7 +37,7 @@ export const UnauthenticatedPage = () => {
 
     return (
         <div className="disconnected-page">
-            <div className="disconnected-page__title typewriter">Now you must authenticate</div>
+            <div className="disconnected-page__title typewriter">Please, authenticate</div>
             <br /><br />
             <button
                 className="button"

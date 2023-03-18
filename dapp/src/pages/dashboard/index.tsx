@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useAccount, useProvider } from "wagmi";
+import { retrieveGameState } from "../../components/shared";
 
 import { fetchGameData, fetchPlayerData } from "../../data/dao-vs-dao-contract";
 import { setGameData } from "../../state/slices/game-slice";
@@ -13,16 +14,8 @@ export const Dashboard = () => {
     const { address } = useAccount();
     const provider = useProvider();
 
-    const retrieveGameState = async () => {
-        const gameData = await fetchGameData(provider);
-        dispatch(setGameData({ gameData }));
-
-        const currentPlayer = address ? await fetchPlayerData(provider, address) : null;
-        dispatch(setCurrentPlayer({ currentPlayer }));
-    };
-
     useEffect(() => {
-        retrieveGameState();
+        retrieveGameState(dispatch, provider, address);
     }, [address]);
 
     return (

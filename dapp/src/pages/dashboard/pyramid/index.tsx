@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { coordsFromLooseValues, coordToString, looseCoordToString } from "../../../@types/i-coords";
+import { coordsFromLooseValues } from "../../../@types/i-coords";
 
 import { RootState } from "../../../state/store";
 import { Cell } from "./cell";

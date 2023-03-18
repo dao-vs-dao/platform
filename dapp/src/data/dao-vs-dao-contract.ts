@@ -75,3 +75,17 @@ export const fetchParticipationFee = async (provider: providers.Provider): Promi
     const participationFee = await daoVsDao.participationFee();
     return bigNumberToFloat(participationFee);
 };
+
+/**
+ * Move the player to the selected coordinates, swapping its content.
+ * @param signer The signer that will be used to trigger the tx.
+ * @param coords The point to swap to.
+ */
+export const swap = async (
+    signer: Signer,
+    coords: ICoords,
+) => {
+    const daoVsDao = new ethers.Contract(getContractAddress(), DaoVsDaoAbi, signer);
+    const tx = await daoVsDao.swap(coords);
+    await tx.wait();
+}

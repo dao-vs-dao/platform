@@ -26,3 +26,24 @@ export const coordToString = (coord: ICoords) => `${coord.realm}-${coord.row}-${
 
 export const looseCoordToString = (realm: number, row: number, column: number) =>
     `${realm}-${row}-${column}`;
+
+/**
+ * Check whether a pair of coordinates is neighboring.
+ */
+export const areNeighboring = (c1: ICoords, c2: ICoords) => {
+    if (c1.realm !== c2.realm) return false;
+    if (Math.abs(c1.row - c2.row) > 1) return false;
+    if (Math.abs(c1.column - c2.column) > 1) return false;
+    return true;
+};
+
+/**
+ * Check whether a player in the first set of coordinate can swap
+ * with a player in the second set.
+ */
+export const canSwap = (c1: ICoords, c2: ICoords) => {
+    if (c1.realm !== c2.realm) return false;
+    if (c1.row < c2.row) return false;
+    if (Math.abs(c1.column - c2.column) > 1) return false;
+    return true;
+};
