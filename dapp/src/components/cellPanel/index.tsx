@@ -1,6 +1,6 @@
 import { AnyAction } from "@reduxjs/toolkit";
 import { providers } from "ethers";
-import React, { Dispatch } from "react";
+import React, { Dispatch, MutableRefObject, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useSearchParams } from "react-router-dom";
@@ -10,7 +10,7 @@ import { calculateWorth, IPlayer } from "../../@types/i-player";
 import { shortenAddress } from "../../data/compact-address";
 import { claimTokens, fetchGameData, fetchParticipationFee, fetchPlayerData, placeUser } from "../../data/dao-vs-dao-contract";
 import { setGameData } from "../../state/slices/game-slice";
-import { setCurrentPlayer } from "../../state/slices/player-slice";
+import { setCurrentPlayer, setSelectedCoords } from "../../state/slices/player-slice";
 import { RootState } from "../../state/store";
 import { errorToast, promiseToast } from "../toaster";
 import { Tooltip } from "../tooltip";
@@ -33,8 +33,26 @@ const retrieveGameState = async (dispatch: Dispatch<AnyAction>, provider: provid
 };
 
 export const CellPanel = ({ color, coords, player }: ICellPanelProps) => {
+    const dispatch = useDispatch();
+    const ref: MutableRefObject<any> = useRef(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: any) => {
+            if (ref.current
+                && !event.target?.className.includes("cell__hovering-surface")
+                && !ref.current.contains(event.target)) {
+                dispatch(setSelectedCoords({ coords: undefined }));
+            }
+        };
+        document.addEventListener('click', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+        };
+    }, []);
+
     return (
-        <div className={`cell-panel`} style={{ borderColor: color }}>
+        <div className={`cell-panel`} style={{ borderColor: color }} ref={ref}>
             {
                 player
                     ? <PlayerPanel player={player} color={color} />
