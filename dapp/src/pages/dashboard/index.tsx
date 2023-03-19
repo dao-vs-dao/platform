@@ -3,9 +3,6 @@ import { useDispatch } from "react-redux";
 import { useAccount, useProvider } from "wagmi";
 import { retrieveGameState } from "../../components/shared";
 
-import { fetchGameData, fetchPlayerData } from "../../data/dao-vs-dao-contract";
-import { setGameData } from "../../state/slices/game-slice";
-import { setCurrentPlayer } from "../../state/slices/player-slice";
 import { Pyramid } from "./pyramid";
 import "./styles.css";
 
