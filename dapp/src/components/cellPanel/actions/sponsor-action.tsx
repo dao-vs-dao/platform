@@ -18,7 +18,6 @@ export const SponsorAction = ({ coords, color }: {
     // this is not an action that the player can perform on itself
     if (coordToString(currentPlayer.coords) === coordToString(coords)) return null;
 
-
     const disabled = currentPlayer.balance === 0;
     const message = !disabled ? "" : `You need some DVD to sponsor a player`;
 

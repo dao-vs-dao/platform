@@ -8,6 +8,7 @@ import { claimTokens } from "../../../data/dao-vs-dao-contract";
 import { RootState } from "../../../state/store";
 import { retrieveGameState } from "../../shared";
 import { errorToast, promiseToast } from "../../toaster";
+import { Tooltip } from "../../tooltip";
 import "../styles.css";
 
 export const ClaimActions = ({ coords, color }: {
@@ -51,11 +52,18 @@ export const ClaimActions = ({ coords, color }: {
     // if this is not the player's area, neither
     if (coordToString(currentPlayer.coords) !== coordToString(coords)) return null;
 
-    return <button
+    const disabled = currentPlayer.claimable === 0;
+    const message = !disabled ? "" : `Nothing to claim`;
+
+    const button = <button
         className="cell-stats__button"
         style={{ backgroundColor: color }}
-        disabled={currentPlayer.claimable === 0}
+        disabled={disabled}
         onClick={claim}>
         Claim
     </button>;
+
+    return disabled
+        ? <Tooltip extraTooltipStyles={{ textAlign: "center" }} iconComponent={button}> {message} </Tooltip>
+        : button;
 };
