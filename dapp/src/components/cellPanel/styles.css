@@ -55,6 +55,11 @@
     color: #fff8;
 }
 
+.cell-stats__countdown {
+    width: 60px;
+    text-align: right;
+}
+
 .cell-stats__tooltip-label {
     border-bottom: 1px dashed #fff8;
 }

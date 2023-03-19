@@ -4,7 +4,8 @@ import { useSelector } from "react-redux";
 import { useAccount, useProvider, useSigner } from "wagmi";
 
 import { canSwap, coordToString, ICoords } from "../../../@types/i-coords";
-import { calculateWorth, roundAtFifthDecimal } from "../../../@types/i-player";
+import { calculateWorth, IPlayer, roundAtFifthDecimal } from "../../../@types/i-player";
+import { hasAttackCoolDown, hasRecoveryCoolDown } from "../../../data/cooldowns";
 import { swap } from "../../../data/dao-vs-dao-contract";
 import { RootState } from "../../../state/store";
 import { retrieveGameState } from "../../shared";
@@ -48,7 +49,6 @@ export const SwapAction = ({ coords, color }: {
         }
     };
 
-
     // if a player does not exists yet, we cannot swap
     if (!currentPlayer) return null;
 
@@ -58,18 +58,25 @@ export const SwapAction = ({ coords, color }: {
     // this is not an action that the player can perform on itself
     if (coordToString(currentPlayer.coords) === coordToString(coords)) return null;
 
-    const playerOnCell = playersFromCoords[coordToString(coords)];
+    const playerOnCell: IPlayer | undefined = playersFromCoords[coordToString(coords)];
     const cellWorth = playerOnCell ? calculateWorth(playerOnCell) : 0;
     const playerWorth = calculateWorth(currentPlayer);
     const hasEnoughWorth = playerWorth >= cellWorth * 1.2;
+    const attackingCoolDown = hasAttackCoolDown(currentPlayer);
+    const targetCoolDown = playerOnCell ? hasRecoveryCoolDown(playerOnCell) : false;
 
-    const disabled = !hasEnoughWorth;
+    console.log(targetCoolDown)
+    const disabled = !hasEnoughWorth || attackingCoolDown || targetCoolDown;
     const message = !disabled
         ? ""
         : !hasEnoughWorth
             ? `Your worth isn't enough to swap with this player
             (need at least ${roundAtFifthDecimal(cellWorth * 1.2)} DVD)`
-            : "🤷";
+            : attackingCoolDown
+                ? "You cannot attack until the cool-down wears off"
+                : targetCoolDown
+                    ? "This player is in recovery cool down. They cannot be attacked until it wears off."
+                    : "";
 
     const button = <button
         className="cell-stats__button"

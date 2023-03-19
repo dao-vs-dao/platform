@@ -31,10 +31,18 @@ export const looseCoordToString = (realm: number, row: number, column: number) =
  * Check whether a pair of coordinates is neighboring.
  */
 export const areNeighboring = (c1: ICoords, c2: ICoords) => {
+    console.log("areNeighboring");
     if (c1.realm !== c2.realm) return false;
-    if (Math.abs(c1.row - c2.row) > 1) return false;
-    if (Math.abs(c1.column - c2.column) > 1) return false;
-    return true;
+    const dR = Math.abs(c1.row - c2.row);
+    const dC = Math.abs(c1.column - c2.column);
+    return (
+        (dR == 0 && dC == 1) || // vertically adjacent
+        (dR == 1 && dC == 0) || // top right or bottom left
+        (dR == 1 &&
+            dC == 1 &&
+            ((c1.row > c2.row && c1.column > c2.column) || // top left
+                (c1.row < c2.row && c1.column < c2.column))) // bottom right
+    );
 };
 
 /**
@@ -42,8 +50,7 @@ export const areNeighboring = (c1: ICoords, c2: ICoords) => {
  * with a player in the second set.
  */
 export const canSwap = (c1: ICoords, c2: ICoords) => {
-    if (c1.realm !== c2.realm) return false;
+    if (!areNeighboring(c1, c2)) return false;
     if (c1.row < c2.row) return false;
-    if (Math.abs(c1.column - c2.column) > 1) return false;
     return true;
 };

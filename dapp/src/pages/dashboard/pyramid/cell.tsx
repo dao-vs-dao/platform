@@ -4,9 +4,10 @@ import { useSelector } from "react-redux";
 import { useAccount } from "wagmi";
 import { coordToString, ICoords } from "../../../@types/i-coords";
 
-import { calculateWorth } from "../../../@types/i-player";
+import { calculateWorth, IPlayer } from "../../../@types/i-player";
 import { CellPanel } from "../../../components/cellPanel";
 import { compactAddress } from "../../../data/compact-address";
+import { hasAttackCoolDown, hasRecoveryCoolDown } from "../../../data/cooldowns";
 import { setSelectedCoords } from "../../../state/slices/player-slice";
 import { RootState } from "../../../state/store";
 import "./pyramid.css";
@@ -30,19 +31,30 @@ const levelColors: { [distanceToTop: number]: string; } = {
 export const Cell = ({ coords }: ICellProps) => {
     const dispatch = useDispatch();
     const { address } = useAccount();
-    const animationDuration = useRef(Math.random() * 5 + 5);
+    // const animationDuration = useRef(Math.random() * 5 + 5);
     const distanceToTop = coords.row;
     const selectedCoords = useSelector((state: RootState) => state.player.selectedCoords);
     const strCoords = coordToString(coords);
     const isSelected = strCoords === selectedCoords;
 
     const playersFromCoords = useSelector((state: RootState) => state.game.playersByCoords);
-    const cellPlayer = playersFromCoords[strCoords];
+    const cellPlayer: IPlayer | undefined = playersFromCoords[strCoords];
     const isLocalPlayerCell = cellPlayer?.userAddress === address;
 
-    const cellTextColor = isLocalPlayerCell ? "#000" : `var(--l${distanceToTop})`;
-    const fillColor = isLocalPlayerCell ? levelColors[distanceToTop] ?? defaultColor : isSelected ? "#fff1" : "#0000";
-    const strokeColor = levelColors[distanceToTop] ?? defaultColor;
+    let cellTextColor = isLocalPlayerCell ? "#000" : levelColors[distanceToTop];
+    let fillColor = isLocalPlayerCell ? levelColors[distanceToTop] ?? defaultColor : isSelected ? "#fff1" : "#0000";
+    let strokeColor = levelColors[distanceToTop] ?? defaultColor;
+
+    if (cellPlayer && hasRecoveryCoolDown(cellPlayer)) {
+        cellTextColor = isLocalPlayerCell ? "#000" : "#495057";
+        fillColor = isLocalPlayerCell ? "#495057" : fillColor;
+        strokeColor = "#495057";
+    }
+    if (cellPlayer && hasAttackCoolDown(cellPlayer)) {
+        cellTextColor = isLocalPlayerCell ? "#000" : "#FF5376";
+        fillColor = isLocalPlayerCell ? "#FF5376" : fillColor;
+        strokeColor = "#FF5376";
+    }
 
     const selectCell = () => {
         const selectedCoords = isSelected ? undefined : coordToString(coords);

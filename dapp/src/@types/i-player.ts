@@ -7,6 +7,8 @@ export interface IPlayer {
     balance: number;
     sponsorships: number;
     claimable: number;
+    attackCoolDownEndTimestamp: number;
+    recoveryCoolDownEndTimestamp: number;
 }
 
 export const roundAtFifthDecimal = (n: number) => Math.round(n * 100000) / 100000;
@@ -22,5 +24,7 @@ export const BNToPOJOPlayer = (player: any) =>
         coords: coordsFromBigNumber(player.coords),
         balance: bigNumberToFloat(player.balance, 5),
         sponsorships: bigNumberToFloat(player.sponsorships, 5),
-        claimable: bigNumberToFloat(player.claimable, 5)
+        claimable: bigNumberToFloat(player.claimable, 5),
+        attackCoolDownEndTimestamp: player.attackCoolDownEndTimestamp.toNumber() * 1000,
+        recoveryCoolDownEndTimestamp: player.recoveryCoolDownEndTimestamp.toNumber() * 1000
     } as IPlayer);

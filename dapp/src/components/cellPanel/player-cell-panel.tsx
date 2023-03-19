@@ -1,9 +1,9 @@
-import React from "react";
-import { useAccount } from "wagmi";
+import React, { useEffect, useState } from "react";
 import { ICoords } from "../../@types/i-coords";
 
 import { calculateWorth, IPlayer } from "../../@types/i-player";
 import { shortenAddress } from "../../data/compact-address";
+import { hasAttackCoolDown, hasRecoveryCoolDown, timeLeft } from "../../data/cooldowns";
 import { Tooltip } from "../tooltip";
 import { ClaimActions } from "./actions/claim-action";
 import { MessageAction } from "./actions/message-action";
@@ -85,6 +85,9 @@ export const PlayerCellPanel = ({ player, color, coords }: IPlayerCellPanelProps
                 <div className="cell-stats__value">{player.claimable} DVD</div>
             </div>
 
+            {/* Status */}
+            <PlayerStatus color={color} player={player} />
+
             {/* Actions */}
             <div className="cell-stats__line" style={{ borderColor: color }} />
             <div className="cell-stats__subtitle" style={{ color: color }}>Actions:</div>
@@ -96,4 +99,67 @@ export const PlayerCellPanel = ({ player, color, coords }: IPlayerCellPanelProps
             </div>
         </div>
     );
+};
+
+const PlayerStatus = ({ player, color }: { player: IPlayer, color: string; }) =>
+    hasRecoveryCoolDown(player) ? <PlayerStatusRecoveryCoolDown color={color} player={player} />
+        : hasAttackCoolDown(player) ? <PlayerStatusAttackCoolDown color={color} player={player} />
+            : null;
+
+const PlayerStatusRecoveryCoolDown = ({ player, color }: { player: IPlayer, color: string; }) => {
+    const [countdown, setCountdown] = useState<string>(timeLeft(player.recoveryCoolDownEndTimestamp));
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            setCountdown(timeLeft(player.recoveryCoolDownEndTimestamp));
+        }, 1000);
+
+        return () => { clearInterval(intervalId); };
+    }, []);
+
+    return <>
+        <div className="cell-stats__line" style={{ borderColor: color }} />
+        <div className="cell-stats__row">
+            <div className="cell-stats__subtitle" style={{ color: color }}>Status: recovery</div>
+            <div className="cell-stats__countdown">{countdown}</div>
+        </div>
+
+        <div className="cell-stats__row">
+            <div className="cell-stats__label">
+                - Cannot be attacked
+            </div>
+        </div>
+        <div className="cell-stats__row">
+            <div className="cell-stats__label">
+                - Status will be lost if player attacks
+            </div>
+        </div>
+    </>;
+};
+
+const PlayerStatusAttackCoolDown = ({ player, color }: { player: IPlayer, color: string; }) => {
+    const [countdown, setCountdown] = useState<string>(timeLeft(player.attackCoolDownEndTimestamp));
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            setCountdown(timeLeft(player.attackCoolDownEndTimestamp));
+        }, 1000);
+
+        return () => { clearInterval(intervalId); };
+    }, []);
+
+    return <>
+        <div className="cell-stats__line" style={{ borderColor: color }} />
+        <div className="cell-stats__row">
+            <div className="cell-stats__subtitle" style={{ color: color }}>Status: dormant</div>
+            <div className="cell-stats__countdown">{countdown}</div>
+        </div>
+
+        <div className="cell-stats__row">
+            <div className="cell-stats__label">- Cannot attack</div>
+        </div>
+        <div className="cell-stats__row">
+            <div className="cell-stats__label">- 2x slashing penalty if attacked</div>
+        </div>
+    </>;
 };
