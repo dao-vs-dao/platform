@@ -1,4 +1,5 @@
 import { ethers, providers, Signer } from "ethers";
+import { parseEther } from "ethers/lib/utils.js";
 import { ICoords } from "../@types/i-coords";
 import { IGame } from "../@types/i-game";
 import { BNToPOJOPlayer, IPlayer } from "../@types/i-player";
@@ -87,5 +88,21 @@ export const swap = async (
 ) => {
     const daoVsDao = new ethers.Contract(getContractAddress(), DaoVsDaoAbi, signer);
     const tx = await daoVsDao.swap(coords);
+    await tx.wait();
+}
+
+/**
+ * Trigger a sponsoring tx.
+ * @param signer The signer that will be used to trigger the tx.
+ * @param user The user the sponsoring will be directed to.
+ * @param amount The sponsored amount.
+ */
+export const sponsor = async (
+    signer: Signer,
+    user: string,
+    amount: number
+) => {
+    const daoVsDao = new ethers.Contract(getContractAddress(), DaoVsDaoAbi, signer);
+    const tx = await daoVsDao.sponsor(user, parseEther(amount.toString()));
     await tx.wait();
 }

@@ -65,7 +65,6 @@ export const SwapAction = ({ coords, color }: {
     const attackingCoolDown = hasAttackCoolDown(currentPlayer);
     const targetCoolDown = playerOnCell ? hasRecoveryCoolDown(playerOnCell) : false;
 
-    console.log(targetCoolDown)
     const disabled = !hasEnoughWorth || attackingCoolDown || targetCoolDown;
     const message = !disabled
         ? ""

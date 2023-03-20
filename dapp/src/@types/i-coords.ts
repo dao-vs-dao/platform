@@ -31,7 +31,6 @@ export const looseCoordToString = (realm: number, row: number, column: number) =
  * Check whether a pair of coordinates is neighboring.
  */
 export const areNeighboring = (c1: ICoords, c2: ICoords) => {
-    console.log("areNeighboring");
     if (c1.realm !== c2.realm) return false;
     const dR = Math.abs(c1.row - c2.row);
     const dC = Math.abs(c1.column - c2.column);

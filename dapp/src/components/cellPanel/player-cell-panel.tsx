@@ -131,7 +131,7 @@ const PlayerStatusRecoveryCoolDown = ({ player, color }: { player: IPlayer, colo
         </div>
         <div className="cell-stats__row">
             <div className="cell-stats__label">
-                - Status will be lost if player attacks
+                - Status is lost if player attacks
             </div>
         </div>
     </>;
