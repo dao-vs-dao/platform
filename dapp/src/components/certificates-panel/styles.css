@@ -1,0 +1,140 @@
+/* Button */
+
+.certificate-panel-bt {
+    position: absolute;
+    right: 0;
+    width: 130px;
+    cursor: pointer;
+    background-image: linear-gradient(to right, #862e9c, #00abfb);
+    background-size: 300% 200%;
+    background-position: 100% 50%;
+    transition: background-position 0.3s linear;
+    padding: 7px 15px;
+    border-radius: 10px;
+    z-index: 100;
+}
+
+.certificate-panel-bt:hover {
+    background-position: 0% 50%;
+}
+
+.certificate-panel-bt__title {
+    margin-bottom: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.certificate-panel-bt__row {
+    display: flex;
+    flex-direction: row;
+    column-gap: 7px;
+    align-items: center;
+    font-size: 0.90rem;
+}
+
+
+/* Panel */
+
+.certificate-panel {
+    position: absolute;
+    right: 0;
+    width: min(300px, 80vw);
+    border: 1px solid #743fa9;
+    background-color: #1a1126;
+    padding: 7px 15px;
+    border-radius: 10px;
+    z-index: 100;
+}
+
+.certificate-panel__close {
+    height: 22px;
+    width: 22px;
+    position: absolute;
+    right: 5px;
+    top: 8px;
+    cursor: pointer;
+}
+
+.certificate-panel__close::after {
+    content: "✖";
+}
+
+.certificate-panel__title {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.certificate-panel__description {
+    margin-bottom: 30px;
+    font-size: 0.9rem;
+}
+
+.certificate-panel__section {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    margin-bottom: 30px;
+}
+
+.certificate-panel__section-title {
+    font-weight: bold;
+}
+
+.certificate-panel__list {
+    display: flex;
+    flex-flow: row wrap;
+    column-gap: 10px;
+}
+
+.certificate-panel__stats {
+    font-size: 0.9rem;
+    color: #fff8;
+}
+
+.certificate-panel__list-msg {
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+/* Single Certificate */
+
+.certificate {
+    background-color: #000;
+    border-radius: 5px;
+}
+
+.certificate__image {
+    height: 50px;
+    width: 50px;
+}
+
+.certificate__image svg {
+    border-radius: 5px 5px 0 0;
+}
+
+.certificate__info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: -8px;
+    padding-bottom: 3px;
+}
+
+/* Certificate Info */
+
+.certificate-info {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+}
+
+.certificate-info__row-text {
+    font-size: 0.80rem;
+    color: #fff8;
+}
+
+.certificate-info__row-value--bold {
+    font-weight: bold;
+}

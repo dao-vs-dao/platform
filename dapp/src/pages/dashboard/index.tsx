@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useAccount, useProvider } from "wagmi";
+import { CertificatesPanel } from "../../components/certificates-panel";
 import { retrieveGameState } from "../../components/shared";
 
 import { Pyramid } from "./pyramid";
@@ -18,6 +19,7 @@ export const Dashboard = () => {
     return (
         <div className="dashboard">
             <Pyramid />
+            <CertificatesPanel />
         </div>
     );
 };

@@ -34,6 +34,7 @@ export const fetchPlayerData = async (
         const player = await daoVsDao.getPlayerData(walletAddress);
         return BNToPOJOPlayer(player);
     } catch (error) {
+        console.error(error);
         return null;
     }
 };
