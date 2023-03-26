@@ -1,4 +1,4 @@
-import { ethers, providers } from "ethers";
+import { ethers, providers, Signer } from "ethers";
 import { BNToPOJOCertificate, ISponsorshipCertificate } from "../@types/i-sponsoring";
 import { SponsorshipCertificateABI } from "./abis/sponsorship-certificate";
 
@@ -27,4 +27,16 @@ export const fetchPlayerCertificates = async (
         console.error(error);
         return { owned: [], beneficiary: [] };
     }
+};
+
+/**
+ * Redeem the specified certificate
+ */
+export const redeemCertificate = async (
+    signer: Signer,
+    certificateId: number
+): Promise<void> => {
+    const sc = new ethers.Contract(getContractAddress(), SponsorshipCertificateABI, signer);
+    const tx = await sc.redeemCertificate(certificateId);
+    await tx.wait();
 };

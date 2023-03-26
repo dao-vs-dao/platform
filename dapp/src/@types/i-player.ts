@@ -1,4 +1,5 @@
 import { bigNumberToFloat } from "../data/big-number-to-float";
+import { roundAtFifthDecimal } from "../data/utils";
 import { coordsFromBigNumber, ICoords } from "./i-coords";
 
 export interface IPlayer {
@@ -10,8 +11,6 @@ export interface IPlayer {
     attackCoolDownEndTimestamp: number;
     recoveryCoolDownEndTimestamp: number;
 }
-
-export const roundAtFifthDecimal = (n: number) => Math.round(n * 100000) / 100000;
 
 /** The worth of the player (balance + sponsorships + claimable) */
 export const calculateWorth = (player: IPlayer) =>

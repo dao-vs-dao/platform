@@ -84,7 +84,7 @@
 .certificate-panel__list {
     display: flex;
     flex-flow: row wrap;
-    column-gap: 10px;
+    column-gap: 5px;
 }
 
 .certificate-panel__stats {
@@ -97,6 +97,27 @@
     font-style: italic;
 }
 
+.certificate-panel__redeemable-cert {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 3px;
+}
+
+.certificate-panel__redeem-button {
+    cursor: pointer;
+    color: #fff;
+    padding: 3px 7px;
+    border-radius: 7px;
+    font-size: 0.8rem;
+    background-color: #0009;
+    border: 1px solid #000;
+}
+
+.certificate-panel__redeem-button:hover {
+    border: 1px solid #fff5;
+}
+
 /* Single Certificate */
 
 .certificate {
@@ -105,8 +126,8 @@
 }
 
 .certificate__image {
-    height: 50px;
-    width: 50px;
+    height: 60px;
+    width: 60px;
 }
 
 .certificate__image svg {

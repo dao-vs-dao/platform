@@ -4,9 +4,10 @@ import { useSelector } from "react-redux";
 import { useAccount, useProvider, useSigner } from "wagmi";
 
 import { canSwap, coordToString, ICoords } from "../../../@types/i-coords";
-import { calculateWorth, IPlayer, roundAtFifthDecimal } from "../../../@types/i-player";
+import { calculateWorth, IPlayer } from "../../../@types/i-player";
 import { hasAttackCoolDown, hasRecoveryCoolDown } from "../../../data/cooldowns";
 import { swap } from "../../../data/dao-vs-dao-contract";
+import { roundAtFifthDecimal } from "../../../data/utils";
 import { RootState } from "../../../state/store";
 import { retrieveGameState } from "../../shared";
 import { errorToast, promiseToast } from "../../toaster";
