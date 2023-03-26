@@ -16,7 +16,7 @@
 .cell-stats {
     display: flex;
     flex-direction: column;
-    font-size: 0.95rem;
+    font-size: 0.925rem;
     width: max-content;
 }
 

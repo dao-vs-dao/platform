@@ -7,12 +7,16 @@ export type SponsoringState = {
     sponsoringAddress?: string;
     ownedCertificates: ISponsorshipCertificate[];
     beneficiaryCertificates: ISponsorshipCertificate[];
+    sponsoredPlayers: Set<string>;
+    sponsoringPlayers: Set<string>;
 };
 
 const initialState: SponsoringState = {
     isModalOpen: false,
     ownedCertificates: [],
-    beneficiaryCertificates: []
+    beneficiaryCertificates: [],
+    sponsoredPlayers: new Set<string>(),
+    sponsoringPlayers: new Set<string>()
 };
 
 export const sponsoringSlice = createSlice({
@@ -35,9 +39,16 @@ export const sponsoringSlice = createSlice({
         ) => {
             state.ownedCertificates = action.payload.ownedCertificates;
             state.beneficiaryCertificates = action.payload.beneficiaryCertificates;
+            state.sponsoredPlayers = new Set(
+                action.payload.ownedCertificates.filter((c) => !c.closed).map((c) => c.receiver)
+            );
+            state.sponsoringPlayers = new Set(
+                action.payload.beneficiaryCertificates.map((c) => c.owner)
+            );
         }
     }
 });
 
-export const { openSponsoringModal, closeSponsoringModal, setPlayerCertificates } = sponsoringSlice.actions;
+export const { openSponsoringModal, closeSponsoringModal, setPlayerCertificates } =
+    sponsoringSlice.actions;
 export default sponsoringSlice.reducer;

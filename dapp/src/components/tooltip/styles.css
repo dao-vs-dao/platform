@@ -7,7 +7,7 @@
 .tooltip__content {
     font-size: 0.9rem;
     visibility: hidden;
-    width: 110px;
+    width: 150px;
     background-color: #000e;
     color: #fff;
     border-radius: 6px;
@@ -23,8 +23,8 @@
     transform: translate(-50%, 0);
 }
 
-.tooltip__content--medium {
-    width: 300px;
+.tooltip__content--small {
+    width: 110px;
 }
 
 .tooltip__content--large {

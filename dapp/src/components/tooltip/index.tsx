@@ -27,8 +27,8 @@ export const Tooltip = ({
 );
 
 const sizeToClass = (size?: TooltipSize) =>
-    size === undefined || size === TooltipSize.Small
+    size === undefined || size === TooltipSize.Medium
         ? ""
-        : size === TooltipSize.Medium
-        ? "tooltip__content--medium "
+        : size === TooltipSize.Small
+        ? "tooltip__content--small "
         : "tooltip__content--large ";

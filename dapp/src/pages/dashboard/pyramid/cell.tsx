@@ -45,6 +45,13 @@ export const Cell = ({ coords }: ICellProps) => {
     let fillColor = isLocalPlayerCell ? levelColors[distanceToTop] ?? defaultColor : isSelected ? "#fff1" : "#0000";
     let strokeColor = levelColors[distanceToTop] ?? defaultColor;
 
+    const isSponsored = cellPlayer
+        && useSelector((state: RootState) => state.sponsoring.sponsoredPlayers)
+            .has(cellPlayer.userAddress);
+    const isSponsoring = cellPlayer
+        && useSelector((state: RootState) => state.sponsoring.sponsoringPlayers)
+            .has(cellPlayer.userAddress);
+
     if (cellPlayer && hasRecoveryCoolDown(cellPlayer)) {
         cellTextColor = isLocalPlayerCell ? "#000" : "#495057";
         fillColor = isLocalPlayerCell ? "#495057" : fillColor;
@@ -62,7 +69,7 @@ export const Cell = ({ coords }: ICellProps) => {
     };
 
     return (
-        <div className={`cell ${isSelected ? "cell--selected" : ""} ${isLocalPlayerCell ? "cell--local" : ""}`}>
+        <div className={`cell${isLocalPlayerCell ? " cell--local" : ""}${isSponsoring ? " cell--sponsoring" : ""} ${isSponsored && !isSponsoring ? " cell--sponsored" : ""}`}>
             {/* Clickable component */}
             <div className="cell__hovering-surface" onClick={selectCell} />
 

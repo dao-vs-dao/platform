@@ -22,6 +22,36 @@
     width: 82px;
 }
 
+.cell--sponsoring::after {
+    content: "";
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    right: calc(50% - 7.5px);
+    top: 68%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' stroke-width='1.5' stroke='%23ffffff88' fill='none' stroke-linecap='round'%3E%3Cpath d='M14 3v4a1 1 0 0 0 1 1h4' /%3E%3Cpath d='M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z' /%3E%3C/svg%3E");
+}
+
+.cell--sponsored::after {
+    content: "";
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    right: calc(50% - 7.5px);
+    top: 68%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' stroke-width='1.5' stroke='%23ffffff55' fill='none' stroke-linecap='round'%3E%3Cpath d='M14 3v4a1 1 0 0 0 1 1h4' /%3E%3Cpath d='M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z' /%3E%3C/svg%3E");
+}
+
+.cell--message::after {
+    content: "";
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    right: 37px;
+    top: 15px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' stroke-width='1.5' stroke='%23ffffff'%3E%3Cpath stroke='none' d='M0 0h24v24H0z' fill='none'/%3E%3Crect x='3' y='5' width='18' height='14' rx='2' /%3E%3Cpolyline points='3 7 12 13 21 7' /%3E%3C/svg%3E");
+}
+
 .cell__hovering-surface {
     /* Adjusted to fit the rhomboid as closely as possible */
     height: 70px;
@@ -35,11 +65,11 @@
     z-index: 10;
 }
 
-.cell__hovering-surface:hover + svg .cell__fillable {
+.cell__hovering-surface:hover+svg .cell__fillable {
     filter: brightness(2);
 }
 
-.cell__hovering-surface:hover ~ .cell__content {
+.cell__hovering-surface:hover~.cell__content {
     filter: brightness(2);
 }
 
@@ -54,6 +84,14 @@
     align-items: center;
     justify-content: center;
     pointer-events: none;
+}
+
+.cell--sponsoring .cell__content {
+    top: -3px;
+}
+
+.cell--sponsored .cell__content {
+    top: -3px;
 }
 
 .cell__content--highlighted {

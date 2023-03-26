@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { ICoords } from "../../@types/i-coords";
+import { useSelector } from "react-redux";
+import { coordToString, ICoords } from "../../@types/i-coords";
 
 import { calculateWorth, IPlayer } from "../../@types/i-player";
+import { ISponsorshipCertificate } from "../../@types/i-sponsoring";
 import { shortenAddress } from "../../data/compact-address";
 import { hasAttackCoolDown, hasRecoveryCoolDown, timeLeft } from "../../data/cooldowns";
+import { RootState } from "../../state/store";
 import { Tooltip } from "../tooltip";
 import { ClaimActions } from "./actions/claim-action";
 import { MessageAction } from "./actions/message-action";
@@ -88,6 +91,9 @@ export const PlayerCellPanel = ({ player, color, coords }: IPlayerCellPanelProps
             {/* Status */}
             <PlayerStatus color={color} player={player} />
 
+            {/* Sponsorships */}
+            <PlayerSponsorships color={color} player={player} />
+
             {/* Actions */}
             <div className="cell-stats__line" style={{ borderColor: color }} />
             <div className="cell-stats__subtitle" style={{ color: color }}>Actions:</div>
@@ -161,5 +167,94 @@ const PlayerStatusAttackCoolDown = ({ player, color }: { player: IPlayer, color:
         <div className="cell-stats__row">
             <div className="cell-stats__label">- 2x slashing penalty if attacked</div>
         </div>
+    </>;
+};
+
+const PlayerSponsorships = ({ player, color }: { player: IPlayer, color: string; }) => {
+    const currentPlayer = useSelector((state: RootState) => state.player.currentPlayer);
+    const sponsorshipsCurrentToPlayer = useSelector
+        ((state: RootState) => state.sponsoring.ownedCertificates)
+        .filter(cert => !cert.closed && cert.receiver == player.userAddress);
+
+    const sponsorshipsPlayerToCurrent = useSelector
+        ((state: RootState) => state.sponsoring.beneficiaryCertificates)
+        .filter(cert => cert.owner === player.userAddress);
+
+    const sum = (n: number[]) => n.reduce((prev, curr) => curr + prev, 0);
+    const calculateCost = (certs: ISponsorshipCertificate[]) => sum(certs.map(c => c.amount));
+    const calculateRedeemed = (certs: ISponsorshipCertificate[]) => sum(certs.map(c => c.redeemed));
+
+    // no sponsorship should be shown if player doesn't exist
+    if (!currentPlayer) return null;
+
+    // the player can see their sponsorships on the separate panel
+    if (coordToString(currentPlayer.coords) === coordToString(player.coords)) return null;
+
+    // no sponsorship relationship between the players
+    if (sponsorshipsCurrentToPlayer.length + sponsorshipsPlayerToCurrent.length == 0) return null;
+
+    return <>
+        {
+            // display sponsorships towards the player
+            sponsorshipsCurrentToPlayer.length > 0
+                ? <>
+                    <div className="cell-stats__line" style={{ borderColor: color }} />
+                    <div className="cell-stats__row">
+                        <div className="cell-stats__subtitle" style={{ color: color }}>Active Sponsorships</div>
+                        <div className="cell-stats__countdown">{sponsorshipsCurrentToPlayer.length}</div>
+                    </div>
+
+                    <div className="cell-stats__row">
+                        <div className="cell-stats__label">
+                            <Tooltip iconComponent={<div className="cell-stats__tooltip-label">Invested</div>}>
+                                The amount of DVD you invested on
+                                this player through sponsorships
+                            </Tooltip>
+                        </div>
+                        <div className="cell-stats__value">{calculateCost(sponsorshipsCurrentToPlayer)} DVD</div>
+                    </div>
+                    <div className="cell-stats__row">
+                        <div className="cell-stats__label">
+                            <Tooltip iconComponent={<div className="cell-stats__tooltip-label">Redeemable now</div>}>
+                                The amount of DVD you can redeem
+                                right now from this player
+                            </Tooltip>
+                        </div>
+                        <div className="cell-stats__value">{calculateRedeemed(sponsorshipsCurrentToPlayer)} DVD</div>
+                    </div>
+                </>
+                : null
+        }
+        {
+            // display sponsorships from the player
+            sponsorshipsPlayerToCurrent.length > 0
+                ? <>
+                    <div className="cell-stats__line" style={{ borderColor: color }} />
+                    <div className="cell-stats__row">
+                        <div className="cell-stats__subtitle" style={{ color: color }}>Sponsorships on you</div>
+                        <div className="cell-stats__countdown">{sponsorshipsPlayerToCurrent.length}</div>
+                    </div>
+
+                    <div className="cell-stats__row">
+                        <div className="cell-stats__label">
+                            <Tooltip iconComponent={<div className="cell-stats__tooltip-label">Invested</div>}>
+                                The amount of DVD this player
+                                invested on you through sponsorships
+                            </Tooltip>
+                        </div>
+                        <div className="cell-stats__value">{calculateCost(sponsorshipsPlayerToCurrent)} DVD</div>
+                    </div>
+                    <div className="cell-stats__row">
+                        <div className="cell-stats__label">
+                            <Tooltip iconComponent={<div className="cell-stats__tooltip-label">Redeemable now</div>}>
+                                The amount of DVD this player can redeem
+                                right now from your sponsorships
+                            </Tooltip>
+                        </div>
+                        <div className="cell-stats__value">{calculateRedeemed(sponsorshipsPlayerToCurrent)} DVD</div>
+                    </div>
+                </>
+                : null
+        }
     </>;
 };

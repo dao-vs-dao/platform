@@ -109,9 +109,15 @@ const OpenCertificatesPanel = () => {
         <div className="certificate-panel__section">
             <div className="certificate-panel__section-title">Sponsorships On You</div>
             {beneficiary.length > 0
-                ? <div className="certificate-panel__list">
-                    {beneficiary.map(cert => <SponsorshipCertificate key={cert.id} cert={cert} />)}
-                </div>
+                ?
+                <>
+                    <div className="certificate-panel__list">
+                        {beneficiary.map(cert => <SponsorshipCertificate key={cert.id} cert={cert} />)}
+                    </div>
+                    <div className="certificate-panel__stats">
+                        <div>Invested: {calculateCost(beneficiary)} DVD</div>
+                    </div>
+                </>
                 : <div className="certificate-panel__list-msg">No one is sponsoring you</div>
             }
         </div>
