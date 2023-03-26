@@ -38,8 +38,9 @@ export const SponsorAction = ({ coords, color }: {
 
         try {
             const amount = 0.001;
-            const address = playerOnCell!.userAddress;
-            const promise = sponsor(signer, address, amount).then(() => retrieveGameState(dispatch, provider, address));
+            const otherPlayerAddress = playerOnCell!.userAddress;
+            const promise = sponsor(signer, otherPlayerAddress, amount)
+                .then(() => retrieveGameState(dispatch, provider, address));
             await promiseToast(
                 promise,
                 "Creating sponsorship contract...",
