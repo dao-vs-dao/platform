@@ -144,6 +144,10 @@ const OpenMessagesPanel = ({ ws }: { ws: React.MutableRefObject<null | WebSocket
             You can only message your direct neighbors and messages will be pruned after
             48 hours.
             <br /><br />
+            Rules:
+            <br />
+            *Be nice!
+            <br />
             *Messages are NOT encrypted
             <br />
             *Messages are rate limited (200/48h)
