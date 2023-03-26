@@ -45,3 +45,24 @@ body {
     margin-top: 10px;
     font-size: 1.5rem;
 }
+
+
+/* Scrollbar */
+
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #00000015;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--lighter-grey);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #A9A7A9;
+}

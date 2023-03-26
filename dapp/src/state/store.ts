@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import gameReducer from "./slices/game-slice";
 import playerReducer from "./slices/player-slice";
 import sponsoringReducer from "./slices/sponsoring-slice";
+import messagingSlice from "./slices/messaging-slice";
 
 export const store = configureStore({
     reducer: {
         game: gameReducer,
         player: playerReducer,
-        sponsoring: sponsoringReducer
+        sponsoring: sponsoringReducer,
+        messaging: messagingSlice
     }
 });
 

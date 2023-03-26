@@ -1,0 +1,119 @@
+/* Button */
+
+.messages-panel-bt {
+    position: absolute;
+    left: 0;
+    width: 130px;
+    cursor: pointer;
+    background-image: linear-gradient(to right, #862e9c, #00abfb);
+    background-size: 300% 200%;
+    background-position: 100% 50%;
+    transition: background-position 0.3s linear;
+    padding: 7px 15px;
+    border-radius: 10px;
+    z-index: 100;
+}
+
+.messages-panel-bt:hover {
+    background-position: 0% 50%;
+}
+
+.messages-panel-bt__title {
+    margin-bottom: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.messages-panel-bt__row {
+    display: flex;
+    flex-direction: row;
+    column-gap: 7px;
+    align-items: center;
+    font-size: 0.90rem;
+}
+
+
+/* Panel */
+
+.messages-panel {
+    position: absolute;
+    left : 0;
+    width: min(300px, 80vw);
+    border: 1px solid #743fa9;
+    background-color: #1a1126;
+    padding: 7px 15px;
+    border-radius: 10px;
+    z-index: 100;
+}
+
+.messages-panel__close {
+    height: 22px;
+    width: 22px;
+    position: absolute;
+    right: 5px;
+    top: 8px;
+    cursor: pointer;
+}
+
+.messages-panel__close::after {
+    content: "✖";
+}
+
+.messages-panel__title {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.messages-panel__description {
+    margin-bottom: 30px;
+    font-size: 0.9rem;
+}
+
+.messages-panel__section {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    margin-bottom: 30px;
+}
+
+.messages-panel__section-title {
+    font-weight: bold;
+}
+
+.messages-panel__list {
+    display: flex;
+    flex-flow: row wrap;
+    column-gap: 5px;
+}
+
+.messages-panel__stats {
+    font-size: 0.9rem;
+    color: #fff8;
+}
+
+.messages-panel__list-msg {
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+.messages-panel__redeemable-cert {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 3px;
+}
+
+.messages-panel__redeem-button {
+    cursor: pointer;
+    color: #fff;
+    padding: 3px 7px;
+    border-radius: 7px;
+    font-size: 0.8rem;
+    background-color: #0009;
+    border: 1px solid #000;
+}
+
+.messages-panel__redeem-button:hover {
+    border: 1px solid #fff5;
+}
