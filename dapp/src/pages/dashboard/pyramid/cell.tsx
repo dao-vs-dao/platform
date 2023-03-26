@@ -47,10 +47,10 @@ export const Cell = ({ coords }: ICellProps) => {
 
     const isSponsored = cellPlayer
         && useSelector((state: RootState) => state.sponsoring.sponsoredPlayers)
-            .has(cellPlayer.userAddress);
+        [cellPlayer.userAddress];
     const isSponsoring = cellPlayer
         && useSelector((state: RootState) => state.sponsoring.sponsoringPlayers)
-            .has(cellPlayer.userAddress);
+        [cellPlayer.userAddress];
 
     if (cellPlayer && hasRecoveryCoolDown(cellPlayer)) {
         cellTextColor = isLocalPlayerCell ? "#000" : "#495057";
@@ -69,7 +69,7 @@ export const Cell = ({ coords }: ICellProps) => {
     };
 
     return (
-        <div className={`cell${isLocalPlayerCell ? " cell--local" : ""}${isSponsoring ? " cell--sponsoring" : ""} ${isSponsored && !isSponsoring ? " cell--sponsored" : ""}`}>
+        <div className={`cell${isSponsoring ? " cell--sponsoring" : ""} ${isSponsored && !isSponsoring ? " cell--sponsored" : ""}`}>
             {/* Clickable component */}
             <div className="cell__hovering-surface" onClick={selectCell} />
 

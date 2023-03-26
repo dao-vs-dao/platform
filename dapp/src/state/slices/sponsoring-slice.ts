@@ -7,16 +7,16 @@ export type SponsoringState = {
     sponsoringAddress?: string;
     ownedCertificates: ISponsorshipCertificate[];
     beneficiaryCertificates: ISponsorshipCertificate[];
-    sponsoredPlayers: Set<string>;
-    sponsoringPlayers: Set<string>;
+    sponsoredPlayers: { [address: string]: boolean };
+    sponsoringPlayers: { [address: string]: boolean };
 };
 
 const initialState: SponsoringState = {
     isModalOpen: false,
     ownedCertificates: [],
     beneficiaryCertificates: [],
-    sponsoredPlayers: new Set<string>(),
-    sponsoringPlayers: new Set<string>()
+    sponsoredPlayers: {},
+    sponsoringPlayers: {}
 };
 
 export const sponsoringSlice = createSlice({
@@ -39,12 +39,18 @@ export const sponsoringSlice = createSlice({
         ) => {
             state.ownedCertificates = action.payload.ownedCertificates;
             state.beneficiaryCertificates = action.payload.beneficiaryCertificates;
-            state.sponsoredPlayers = new Set(
-                action.payload.ownedCertificates.filter((c) => !c.closed).map((c) => c.receiver)
+
+            const sponsoredPlayers: { [address: string]: boolean } = {};
+            action.payload.ownedCertificates
+                .filter((c) => !c.closed)
+                .forEach((c) => (sponsoredPlayers[c.receiver] = true));
+            state.sponsoredPlayers = sponsoredPlayers;
+
+            const sponsoringPlayers: { [address: string]: boolean } = {};
+            action.payload.beneficiaryCertificates.forEach(
+                (c) => (sponsoringPlayers[c.owner] = true)
             );
-            state.sponsoringPlayers = new Set(
-                action.payload.beneficiaryCertificates.map((c) => c.owner)
-            );
+            state.sponsoringPlayers = sponsoringPlayers;
         }
     }
 });
