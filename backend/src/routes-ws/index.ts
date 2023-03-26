@@ -1,6 +1,7 @@
 import { subDays, subHours } from "date-fns";
 import { Request } from "express";
 import * as ws from "ws";
+import { IMessage } from "../@types/message";
 
 import { getNeighboringAddresses } from "../data/dao-vs-dao-contract";
 import { Message } from "../models/message";
@@ -38,8 +39,22 @@ export const authenticatedMessagesWs = async (ws: ws, req: Request) => {
             delete newMessage["date"];
             const message = await Message.build(newMessage).save();
 
+            // check user quota
+            const messageCount = await Message.countDocuments({ from: userAddress });
+            if (messageCount >= 200) {
+                const quotaReachedMessage: IMessage = {
+                    from: "0x0000000000000000000000000000000000000000",
+                    to: message.from,
+                    date: new Date(),
+                    message: "YOU'VE REACHED YOUR QUOTA. WAIT TO SEND MORE MESSAGES",
+                    read: false
+                };
+                ws.send(JSON.stringify([quotaReachedMessage]));
+                return;
+            }
+
             // echo the message
-            ws.send(JSON.stringify([message]))
+            ws.send(JSON.stringify([message]));
 
             // if user is online (they have an open socket) and a neighbor, we send them the message
             const userSocket = openSockets[message.to];

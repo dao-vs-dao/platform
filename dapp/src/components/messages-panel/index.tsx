@@ -53,14 +53,15 @@ export const MessagesPanel = () => {
 const ClosedMessagesPanel = () => {
     const dispatch = useDispatch();
     const unread = useSelector((state: RootState) => state.messaging.unread);
+    const totalUnread = Object.values(unread).reduce((prev, next) => prev + next, 0);
 
     const openPanel = () => dispatch(openMessagingModal({}));
 
     return <div className="messages-panel-bt" onClick={openPanel}>
         <div className="messages-panel-bt__title">
             Messages
-            {unread > 0
-                ? <div className="messages-panel-bt__unread">{unread}</div>
+            {totalUnread > 0
+                ? <div className="messages-panel-bt__unread">{totalUnread}</div>
                 : null}
         </div>
     </div>;
@@ -71,6 +72,7 @@ const OpenMessagesPanel = ({ ws }: { ws: React.MutableRefObject<null | WebSocket
     const { address } = useAccount();
     const isModalOpen = useSelector((state: RootState) => state.messaging.isModalOpen);
     const chat = useSelector((state: RootState) => state.messaging.chat);
+    const unread = useSelector((state: RootState) => state.messaging.unread);
     const selected = useSelector((state: RootState) => state.messaging.selectedChat);
     const ref: MutableRefObject<any> = useRef(null);
     const [text, setText] = useState<string>("");
@@ -140,9 +142,11 @@ const OpenMessagesPanel = ({ ws }: { ws: React.MutableRefObject<null | WebSocket
         <div className="messages-panel__title">Messages</div>
         <div className="messages-panel__description">
             You can only message your direct neighbors and messages will be pruned after
-            24 hours.
+            48 hours.
             <br /><br />
-            *Messages are NOT encrypted!
+            *Messages are NOT encrypted
+            <br />
+            *Messages are rate limited (200/48h)
         </div>
 
         {/* List of active chats */}
@@ -164,7 +168,11 @@ const OpenMessagesPanel = ({ ws }: { ws: React.MutableRefObject<null | WebSocket
                                 document.getElementById("id-msg-textarea")?.focus();
                             }}>
                             <div className="msg-header__address">{compactAddress(otherUserAddress)}</div>
-                            <div className="msg-header__nr">{chat[otherUserAddress].length}</div>
+                            {
+                                unread[otherUserAddress] > 0
+                                    ? <div className="msg-header__unread">{unread[otherUserAddress]}</div>
+                                    : null
+                            }
                         </div>
                     )}
                 </div>

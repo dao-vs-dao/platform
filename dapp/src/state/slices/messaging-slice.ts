@@ -4,16 +4,17 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { IMessage } from "../../@types/i-message";
 
 type Chat = { [address: string]: IMessage[] };
+type UnreadChat = { [address: string]: number };
 export type MessagingState = {
     isModalOpen: boolean;
-    unread: number;
     selectedChat?: string;
     chat: Chat;
+    unread: UnreadChat;
 };
 
 const initialState: MessagingState = {
     isModalOpen: false,
-    unread: 0,
+    unread: {},
     chat: {}
 };
 
@@ -32,36 +33,29 @@ export const messagingSlice = createSlice({
             state.isModalOpen = false;
         },
         pushMessages: (state, action: PayloadAction<{ player: string; messages: IMessage[] }>) => {
-            let unreadFromBatch = 0;
             for (const message of action.payload.messages) {
                 const other = message.from !== action.payload.player ? message.from : message.to;
 
-                if (message.from === other && !message.read) unreadFromBatch++;
                 if (!state.chat[other]) state.chat[other] = [];
+                if (message.from === other && !message.read)
+                    state.unread[other] = (state.unread[other] ?? 0) + 1;
                 state.chat[other].push(message);
             }
-            state.unread += unreadFromBatch;
         },
         setThreadAsRead: (state, action: PayloadAction<{ thread: string }>) => {
-            const thread = action.payload.thread;
-            const messages = state.chat[thread] ?? [];
-            let readMessages = 0;
-            for (var i = 0; i < messages.length; i++) {
-                if (messages[i].from === thread && !messages[i].read) {
-                    messages[i].read = true;
-                    readMessages++;
-                }
-            }
-
-            state.chat[thread] = messages;
-            state.unread -= readMessages;
+            delete state.unread[action.payload.thread];
         },
         deleteMessages: (state, action: PayloadAction<{}>) => {
             state.chat = {};
-        },
+        }
     }
 });
 
-export const { openMessagingModal, closeMessagingModal, pushMessages, setThreadAsRead, deleteMessages } =
-    messagingSlice.actions;
+export const {
+    openMessagingModal,
+    closeMessagingModal,
+    pushMessages,
+    setThreadAsRead,
+    deleteMessages
+} = messagingSlice.actions;
 export default messagingSlice.reducer;
