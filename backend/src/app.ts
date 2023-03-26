@@ -12,6 +12,7 @@ import { healthRouter } from "./routes/health-router";
 import { authRouter } from "./routes/authentication";
 import { isAuthenticatedWs } from "./middlewares/authentication-ws";
 import { authenticatedMessagesWs } from "./routes-ws";
+import { messagingRouter } from "./routes/messaging";
 
 dotenv.config();
 const isProduction = !process.env.FRONTEND_URL!.includes("localhost");
@@ -38,4 +39,5 @@ app.use(passport.session());
 
 app.use(healthRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/messaging", messagingRouter);
 app.ws("/", isAuthenticatedWs, authenticatedMessagesWs);

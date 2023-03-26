@@ -1,6 +1,7 @@
+import { subDays, subHours } from "date-fns";
 import { Request } from "express";
 import * as ws from "ws";
-import { IMessage } from "../@types/message";
+
 import { getNeighboringAddresses } from "../data/dao-vs-dao-contract";
 import { Message } from "../models/message";
 
@@ -16,23 +17,40 @@ export const authenticatedMessagesWs = async (ws: ws, req: Request) => {
     const userAddress = req.user!.address;
     openSockets[userAddress] = ws;
 
+    // delete all old messages
+    const yesterday = subDays(new Date(), 1);
+    await Message.deleteMany({ date: { $lte: yesterday } });
+
     // retrieve and send user's messages
-    const neighbors = new Set(await getNeighboringAddresses(userAddress));
-    const toMessages = await Message.find({ to: userAddress, from: { $in: neighbors } });
-    const fromMessages = await Message.find({ from: userAddress, to: { $in: neighbors } });
-    ws.send(JSON.stringify([...toMessages, ...fromMessages]));
+    const neighbors = await getNeighboringAddresses(userAddress);
+    const messages = await Message.find({
+        $or: [
+            { to: userAddress, from: { $in: neighbors } },
+            { from: userAddress, to: { $in: neighbors } }
+        ]
+    }).sort({ date: 1 });
+
+    ws.send(JSON.stringify(messages));
 
     ws.onmessage = async (event) => {
-        const newMessage: IMessage = JSON.parse(event.data.toString());
-        await Message.build(newMessage).save();
+        try {
+            const newMessage = JSON.parse(event.data.toString());
+            delete newMessage["date"];
+            const message = await Message.build(newMessage).save();
 
-        // if user is online (they have an open socket) and a neighbor, we send them the message
-        const userSocket = openSockets[newMessage.to];
-        if (!userSocket) return;
-        const currentNeighbors = new Set(await getNeighboringAddresses(userAddress));
-        if (currentNeighbors.has(newMessage.to)) return;
+            // echo the message
+            ws.send(JSON.stringify([message]))
 
-        userSocket.send(JSON.stringify([newMessage]));
+            // if user is online (they have an open socket) and a neighbor, we send them the message
+            const userSocket = openSockets[message.to];
+            if (!userSocket) return;
+            const currentNeighbors = new Set(await getNeighboringAddresses(userAddress));
+            if (!currentNeighbors.has(message.to)) return;
+
+            userSocket.send(JSON.stringify([message]));
+        } catch (error) {
+            console.error({ error, event });
+        }
     };
 
     ws.onclose = (event) => {
