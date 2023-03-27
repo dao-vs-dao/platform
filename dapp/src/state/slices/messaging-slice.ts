@@ -47,6 +47,7 @@ export const messagingSlice = createSlice({
         },
         deleteMessages: (state, action: PayloadAction<{}>) => {
             state.chat = {};
+            state.unread = {};
         }
     }
 });
