@@ -7,7 +7,7 @@ const messagesSchema = new Schema({
     to: { type: String, required: true, set: getAddress, index: true },
     from: { type: String, required: true, set: getAddress, index: true },
     message: { type: String, required: true, index: true },
-    date: { type: Date, required: false, default: new Date() },
+    date: { type: Date, required: false, default: () => new Date() },
     read: { type: Boolean, required: false, default: false }
 });
 

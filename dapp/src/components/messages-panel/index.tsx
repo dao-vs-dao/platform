@@ -188,7 +188,7 @@ const OpenMessagesPanel = ({ ws }: { ws: React.MutableRefObject<null | WebSocket
             <div className="chatroom">
                 <div className="chatroom__messages" id="id-chatroom-messages">
                     {selected
-                        ? chat[selected].map((msg, i) =>
+                        ? (chat[selected] ?? []).map((msg, i) =>
                             <Message
                                 key={`${msg.date}-${i}`}
                                 message={msg}
