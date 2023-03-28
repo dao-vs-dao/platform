@@ -17,16 +17,28 @@ interface ICellProps {
 }
 
 const defaultColor = "#49505722";
-const levelColors: { [distanceToTop: number]: string; } = {
-    0: "#862e9c",
-    1: "#5f3dc4",
-    2: "#364fc7",
-    3: "#1864ab",
-    4: "#0b7285",
-    5: "#087f5b",
-    6: "#2b8a3e",
-    7: "#5c940d"
-};
+const levelColors = [
+    "#862e9c",
+    "#5f3dc4",
+    "#364fc7",
+    "#1864ab",
+    "#0b7285",
+    "#087f5b",
+    "#2b8a3e",
+    "#5c940d",
+    "#8c8f0a",
+    "#b6a50e",
+    "#d6bb1d",
+    "#e6ce38",
+    "#e4de6d",
+    "#c9d47f",
+    "#9ec3a7",
+    "#73b8d7",
+    "#5185c2",
+    "#6c7ec7",
+    "#8667c2",
+    "#a351b8",
+  ];
 
 export const Cell = ({ coords }: ICellProps) => {
     const dispatch = useDispatch();
@@ -41,9 +53,10 @@ export const Cell = ({ coords }: ICellProps) => {
     const cellPlayer: IPlayer | undefined = playersFromCoords[strCoords];
     const isLocalPlayerCell = cellPlayer?.userAddress === address;
 
-    let cellTextColor = isLocalPlayerCell ? "#000" : levelColors[distanceToTop];
-    let fillColor = isLocalPlayerCell ? levelColors[distanceToTop] ?? defaultColor : isSelected ? "#fff1" : "#0000";
-    let strokeColor = levelColors[distanceToTop] ?? defaultColor;
+    const colorIndex = distanceToTop % levelColors.length;
+    let cellTextColor = isLocalPlayerCell ? "#000" : levelColors[colorIndex];
+    let fillColor = isLocalPlayerCell ? levelColors[colorIndex] ?? defaultColor : isSelected ? "#fff1" : "#0000";
+    let strokeColor = levelColors[colorIndex] ?? defaultColor;
 
     const isSponsored = cellPlayer
         && useSelector((state: RootState) => state.sponsoring.sponsoredPlayers)
