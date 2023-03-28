@@ -1,8 +1,8 @@
 import { subDays, subHours } from "date-fns";
 import { Request } from "express";
 import * as ws from "ws";
-import { IMessage } from "../@types/message";
 
+import { IMessage } from "../@types/message";
 import { getNeighboringAddresses } from "../data/dao-vs-dao-contract";
 import { Message } from "../models/message";
 
@@ -18,20 +18,29 @@ export const authenticatedMessagesWs = async (ws: ws, req: Request) => {
     const userAddress = req.user!.address;
     openSockets[userAddress] = ws;
 
-    // delete all old messages
-    const yesterday = subDays(new Date(), 1);
-    await Message.deleteMany({ date: { $lte: yesterday } });
+    try {
+        // delete all old messages
+        const yesterday = subDays(new Date(), 1);
+        await Message.deleteMany({ date: { $lte: yesterday } });
 
-    // retrieve and send user's messages
-    const neighbors = await getNeighboringAddresses(userAddress);
-    const messages = await Message.find({
-        $or: [
-            { to: userAddress, from: { $in: neighbors } },
-            { from: userAddress, to: { $in: neighbors } }
-        ]
-    }).sort({ date: 1 });
+        // retrieve and send user's messages
+        const neighbors = await getNeighboringAddresses(userAddress);
+        const messages = await Message.find({
+            $or: [
+                { to: userAddress, from: { $in: neighbors } },
+                { from: userAddress, to: { $in: neighbors } }
+            ]
+        }).sort({ date: 1 });
 
-    ws.send(JSON.stringify(messages));
+        ws.send(JSON.stringify(messages));
+    } catch (error) {
+        const unexpectedErrorMessage = getSystemMessage(
+            userAddress,
+            "Something went wrong while fetching your messages. Let us know and we will investigate!"
+        );
+        ws.send(JSON.stringify([unexpectedErrorMessage]));
+        console.error({ error });
+    }
 
     ws.onmessage = async (event) => {
         try {
@@ -42,13 +51,10 @@ export const authenticatedMessagesWs = async (ws: ws, req: Request) => {
             // check user quota
             const messageCount = await Message.countDocuments({ from: userAddress });
             if (messageCount >= 200) {
-                const quotaReachedMessage: IMessage = {
-                    from: "0x0000000000000000000000000000000000000000",
-                    to: message.from,
-                    date: new Date(),
-                    message: "YOU'VE REACHED YOUR QUOTA. WAIT TO SEND MORE MESSAGES",
-                    read: false
-                };
+                const quotaReachedMessage = getSystemMessage(
+                    message.from,
+                    "YOU'VE REACHED YOUR QUOTA. WAIT TO SEND MORE MESSAGES"
+                );
                 ws.send(JSON.stringify([quotaReachedMessage]));
                 return;
             }
@@ -72,3 +78,11 @@ export const authenticatedMessagesWs = async (ws: ws, req: Request) => {
         delete openSockets[userAddress];
     };
 };
+
+const getSystemMessage = (to: string, text: string): IMessage => ({
+    from: "0x0000000000000000000000000000000000000000",
+    to,
+    date: new Date(),
+    message: text,
+    read: false
+});
