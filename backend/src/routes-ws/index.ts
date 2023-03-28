@@ -20,7 +20,7 @@ export const authenticatedMessagesWs = async (ws: ws, req: Request) => {
 
     try {
         // delete all old messages
-        const yesterday = subDays(new Date(), 1);
+        const yesterday = subDays(new Date(), 2);
         await Message.deleteMany({ date: { $lte: yesterday } });
 
         // retrieve and send user's messages
