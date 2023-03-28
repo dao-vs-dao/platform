@@ -15,7 +15,6 @@
     line-height: 150%;
 }
 
-
 @keyframes typewriter {
     from {
         width: 0;
@@ -26,8 +25,20 @@
     }
 }
 
+
 .typewriter {
     overflow: hidden;
     white-space: nowrap;
-    animation: typewriter 4s steps(40) forwards;
+    animation: typewriter 3s steps(40) forwards;
+}
+
+
+@media only screen and (max-width: 900px) {
+
+
+    .typewriter {
+        overflow: hidden;
+        white-space: unset;
+        animation: typewriter 1.5s steps(40, end);
+    }
 }
