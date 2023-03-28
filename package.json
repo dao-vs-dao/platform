@@ -7,13 +7,14 @@
     "dev": "concurrently -k -c auto \"npm:run-*\"",
     "run-mongoDb": "docker-compose up > mongo-output.txt 2>&1",
     "run-dapp": "cd dapp && npm i && npm run dev",
+    "run-landing": "cd landing && npm i && npm run dev",
     "run-backend": "cd backend && npm i && npm run dev"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dao-vs-dao/platform.git"
   },
-  "author": "Dottyland",
+  "author": "dao-vs-dao",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/dao-vs-dao/platform/issues"

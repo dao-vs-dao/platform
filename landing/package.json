@@ -1,0 +1,48 @@
+{
+    "name": "dao-vs-dao.landing",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "mocha ./**/*test.ts",
+        "test:ci": "mocha ./**/*test.ts --exit",
+        "start": "echo started?",
+        "dev": "webpack serve --port 3010 --progress",
+        "clean": "rimraf dist",
+        "build:webpack": "NODE_ENV=production webpack --config webpack.config.js",
+        "build": "npm run clean && npm run build:webpack"
+    },
+    "author": "dao-vs-dao",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/react": "^18.0.17",
+        "@types/react-dom": "^18.0.6",
+        "@types/react-modal": "^3.13.1",
+        "copy-webpack-plugin": "^11.0.0",
+        "css-loader": "^6.7.1",
+        "file-loader": "^6.2.0",
+        "html-webpack-plugin": "^5.5.0",
+        "mini-css-extract-plugin": "^2.6.1",
+        "prettier": "^2.7.1",
+        "rimraf": "^3.0.2",
+        "ts-loader": "^9.3.1",
+        "ts-node": "^10.9.1",
+        "tslint": "^6.1.3",
+        "typescript": "^4.8.2",
+        "url-loader": "^4.1.1",
+        "webpack": "^5.74.0",
+        "webpack-cli": "^4.10.0",
+        "webpack-dev-server": "^4.10.0"
+    },
+    "dependencies": {
+        "@web3modal/ethereum": "^2.2.0",
+        "@web3modal/react": "^2.2.0",
+        "cross-fetch": "^3.1.5",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-hook-form": "^7.42.1",
+        "react-modal": "^3.16.1",
+        "react-router-dom": "^6.3.0",
+        "react-toastify": "^9.1.1"
+    }
+}
