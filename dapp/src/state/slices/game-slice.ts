@@ -4,7 +4,7 @@ import { IGame } from "../../@types/i-game";
 import { IPlayer } from "../../@types/i-player";
 import { coordToString } from "../../@types/i-coords";
 
-type PlayersDict = { [key: string]: IPlayer };
+export type PlayersDict = { [key: string]: IPlayer };
 
 export type GameState = {
     gameData: IGame | null;

@@ -1,7 +1,8 @@
 export interface INews {
     id: string;
     timestamp?: number;
+    block: number;
     text: string;
-    distance?: number;
+    epicenter?: string;
     unread: boolean;
 }

@@ -1,9 +1,12 @@
 import React, { MutableRefObject, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { pyramidDistance } from "../../@types/i-coords";
 import { INews } from "../../@types/i-feed";
+import { IPlayer } from "../../@types/i-player";
 
 import { closeFeedModal, openFeedModal, setNewsAsRead } from "../../state/slices/feed-slice";
+import { PlayersDict } from "../../state/slices/game-slice";
 import { RootState } from "../../state/store";
 import { Tooltip, TooltipSize } from "../tooltip";
 import { DVDEventListener } from "./dvd-event-listeners";
@@ -86,7 +89,11 @@ const OpenFeedPanel = () => {
 };
 
 const PieceOfNews = ({ news }: { news: INews; }) => {
-    const proximity = getProximity(news.distance);
+    const currentPlayer = useSelector((state: RootState) => state.player.currentPlayer);
+    const playersByAddress = useSelector((state: RootState) => state.game.playersByAddress);
+
+    const distance = calculateDistance(news.epicenter, currentPlayer, playersByAddress);
+    const proximity = getProximity(distance);
     const proximityIcon = <div className="news__proximity" style={{ backgroundColor: getProximityColor(proximity) }} />;
     return <div
         className={`news ${news.unread ? "news--unread" : ""}`}
@@ -101,6 +108,14 @@ const PieceOfNews = ({ news }: { news: INews; }) => {
     </div>;
 };
 
+const calculateDistance = (
+    epicenter: string | undefined,
+    currentPlayer: IPlayer | null | undefined,
+    playersByAddress: PlayersDict): number | undefined => {
+    if (!epicenter || !currentPlayer || !playersByAddress[epicenter]) return undefined;
+    return pyramidDistance(currentPlayer.coords, playersByAddress[epicenter].coords);
+};
+
 enum Proximity { Neighborhood, Close, Around, QuiteFar, NoIdeaWhere }
 const getProximity = (distance?: number): Proximity =>
     !distance ? Proximity.NoIdeaWhere
@@ -112,7 +127,7 @@ const getProximity = (distance?: number): Proximity =>
 const getProximityMessage = (proximity: Proximity) => {
     switch (proximity) {
         case Proximity.Neighborhood: return "Very close to you!";
-        case Proximity.Close: return "In your visible area, but at some distance";
+        case Proximity.Close: return "In your visible area";
         case Proximity.Around: return "Just outside your visible area";
         case Proximity.QuiteFar: return "Very far from you";
         case Proximity.NoIdeaWhere: return "In a far away land";

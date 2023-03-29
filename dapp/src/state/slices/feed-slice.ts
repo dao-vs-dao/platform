@@ -26,7 +26,14 @@ export const feedSlice = createSlice({
             state.isModalOpen = false;
         },
         pushNews: (state, action: PayloadAction<{ news: INews }>) => {
-            state.feed.push(action.payload.news);
+            // insert the news keeping the array sorted by "block"
+            const indexToInsert = state.feed.findIndex((news) => news.block > action.payload.news.block);
+            if (indexToInsert === -1) {
+                state.feed.push(action.payload.news);
+            } else {
+                state.feed.splice(indexToInsert, 0, action.payload.news);
+            }
+
             if (action.payload.news.unread) state.unread++;
         },
         setNewsAsRead: (state, action: PayloadAction<{}>) => {

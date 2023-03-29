@@ -2,7 +2,8 @@
 
 .news-feed-panel-bt {
     position: absolute;
-    left: 0;
+    right: 0;
+    top: 117px;
     width: 130px;
     cursor: pointer;
     background-image: linear-gradient(to right, #862e9c, #00abfb);
@@ -42,7 +43,7 @@
 
 .news-feed-panel {
     position: absolute;
-    left : 0;
+    right: 0;
     width: min(300px, 80vw);
     border: 1px solid #743fa9;
     background-color: #1a1126;
@@ -124,7 +125,7 @@
 }
 
 .news__text {
-
+    font-size: 0.9rem;
 }
 
 .news__date {
