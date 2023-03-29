@@ -1,19 +1,16 @@
 .pyramid {
+    position: relative;
     display: flex;
     flex-direction: column;
-    align-items: center;
     user-select: none;
+    align-items: center;
+    justify-content: flex-start;
 }
 
-.pyramid__row {
-    display: flex;
-    flex-direction: row;
-}
+.pyramid__cells {
 
-.pyramid__row--push-up {
-    margin-top: -43px;
+    position: relative;
 }
-
 
 @media only screen and (max-width: 900px) {
     .pyramid {
@@ -24,7 +21,7 @@
 /* Cell */
 
 .cell {
-    position: relative;
+    position: absolute;
     height: 100px;
     width: 82px;
 }
@@ -79,6 +76,19 @@
 .cell__hovering-surface:hover~.cell__content {
     filter: brightness(2);
 }
+
+.cell--far-away .cell__hovering-surface{
+    cursor: unset;
+}
+
+.cell--far-away .cell__hovering-surface:hover+svg .cell__fillable {
+    filter: unset;
+}
+
+.cell--far-away .cell__hovering-surface:hover~.cell__content {
+    filter: unset;
+}
+
 
 .cell__content {
     position: absolute;

@@ -14,9 +14,12 @@ import "./pyramid.css";
 
 interface ICellProps {
     coords: ICoords;
+    position: { top: number, left: number; };
+    distance: number;
 }
 
-const defaultColor = "#49505722";
+const MAX_DISTANCE_BEFORE_GRAYING_OUT = 230;
+const defaultColor = "#fff2";
 const levelColors = [
     "#862e9c",
     "#5f3dc4",
@@ -38,9 +41,9 @@ const levelColors = [
     "#6c7ec7",
     "#8667c2",
     "#a351b8",
-  ];
+];
 
-export const Cell = ({ coords }: ICellProps) => {
+export const Cell = ({ coords, position, distance }: ICellProps) => {
     const dispatch = useDispatch();
     const { address } = useAccount();
     // const animationDuration = useRef(Math.random() * 5 + 5);
@@ -55,8 +58,15 @@ export const Cell = ({ coords }: ICellProps) => {
 
     const colorIndex = distanceToTop % levelColors.length;
     let cellTextColor = isLocalPlayerCell ? "#000" : levelColors[colorIndex];
-    let fillColor = isLocalPlayerCell ? levelColors[colorIndex] ?? defaultColor : isSelected ? "#fff1" : "#0000";
-    let strokeColor = levelColors[colorIndex] ?? defaultColor;
+    let fillColor = isLocalPlayerCell ? levelColors[colorIndex] : isSelected ? "#fff1" : "#0000";
+    let strokeColor = levelColors[colorIndex];
+
+    const isFarAway = distance > MAX_DISTANCE_BEFORE_GRAYING_OUT;
+    if (isFarAway) {
+        // if cell is far away from the player, we grey it out
+        cellTextColor = defaultColor;
+        strokeColor = defaultColor;
+    }
 
     const isSponsored = cellPlayer
         && useSelector((state: RootState) => state.sponsoring.sponsoredPlayers)
@@ -77,12 +87,15 @@ export const Cell = ({ coords }: ICellProps) => {
     }
 
     const selectCell = () => {
+        if (isFarAway) return;
         const selectedCoords = isSelected ? undefined : coordToString(coords);
         dispatch(setSelectedCoords({ coords: selectedCoords }));
     };
 
     return (
-        <div className={`cell${isSponsoring ? " cell--sponsoring" : ""} ${isSponsored && !isSponsoring ? " cell--sponsored" : ""}`}>
+        <div className={`cell${isSponsoring ? " cell--sponsoring" : ""} ${isSponsored && !isSponsoring ? " cell--sponsored" : ""} ${isFarAway ? " cell--far-away" : ""}`}
+            style={{ top: `${position.top}px`, left: `${position.left}px` }}
+        >
             {/* Clickable component */}
             <div className="cell__hovering-surface" onClick={selectCell} />
 

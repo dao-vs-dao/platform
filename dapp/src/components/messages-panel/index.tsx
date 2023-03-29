@@ -15,13 +15,13 @@ import "./styles.css";
 export const MessagesPanel = () => {
     const dispatch = useDispatch();
     const isModalOpen = useSelector((state: RootState) => state.messaging.isModalOpen);
-    const authAddress = useSelector((state: RootState) => state.player.authAddress);
+    const currentPlayer = useSelector((state: RootState) => state.player.currentPlayer);
 
     const ws: React.MutableRefObject<null | WebSocket> = useRef(null);
 
     const connectSocket = () => {
         // if user is not authenticated, we should NOT establish a connection
-        if (!authAddress) {
+        if (!currentPlayer) {
             ws.current = null;
             return;
         }
@@ -35,7 +35,7 @@ export const MessagesPanel = () => {
         };
         socket.onmessage = (event) => {
             const messages: IMessage[] = JSON.parse(event.data);
-            dispatch(pushMessages({ player: authAddress, messages }));
+            dispatch(pushMessages({ player: currentPlayer.userAddress, messages }));
         };
         ws.current = socket;
     };
@@ -45,7 +45,7 @@ export const MessagesPanel = () => {
         return () => {
             ws.current?.close();
         };
-    }, [authAddress]);
+    }, [currentPlayer]);
 
     return isModalOpen ? <OpenMessagesPanel ws={ws} /> : <ClosedMessagesPanel />;
 };
