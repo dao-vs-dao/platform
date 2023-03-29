@@ -7,12 +7,15 @@ export const DaoVsDaoAbi = [
     "event OwnershipTransferred(address indexed previousOwner, address indexed newOwner)",
     "event ParticipationFeeUpdated(uint256 newParticipationFee)",
     "event PercentageForReferrerUpdated(uint256 newPercentageForReferrer)",
+    "event RealmAdded(uint256 realm)",
+    "event RowAdded(uint256 realm, uint256 row)",
     "event Slashed(address indexed attacker, address indexed attacked, uint256 subtractedFromAttackedBalance, uint256 subtractedFromAttackedSponsorships, uint256 slashingTaxes, uint256 addedToAttackerBalance, uint256 addedToAttackerSponsorships)",
     "event SlashingPercentageUpdated(uint256 newSlashingPercentage)",
     "event SlashingTaxUpdated(uint256 newSlashingTax)",
     "event SponsorshipCertificateEmitterUpdated(address newEmitter)",
     "event Transfer(address indexed from, address indexed to, uint256 value)",
     "event Upgraded(address indexed implementation)",
+    "event UserPlaced(address indexed user, address indexed referrer, tuple(uint64 realm, uint64 row, uint64 column) _coord, uint256 usersCount)",
     "function addRealm()",
     "function addRow(uint256 _realm)",
     "function allowance(address owner, address spender) view returns (uint256)",
@@ -65,5 +68,6 @@ export const DaoVsDaoAbi = [
     "function upgradeTo(address newImplementation)",
     "function upgradeToAndCall(address newImplementation, bytes data) payable",
     "function userCoord(address) view returns (uint64 realm, uint64 row, uint64 column)",
-    "function worth(address _user) view returns (uint256)"
+    "function worth(address _user) view returns (uint256)",
+    "function worthOfSponsorshipShares(address _sponsored, uint256 _shares) view returns (uint256)"
 ];
