@@ -1,10 +1,18 @@
-import { ethers, providers, Signer } from "ethers";
+import { Contract, ethers, providers, Signer } from "ethers";
 import { BNToPOJOCertificate, ISponsorshipCertificate } from "../@types/i-sponsoring";
 import { SponsorshipCertificateABI } from "./abis/sponsorship-certificate";
 
 const POLYGON_SC_ADDRESS = "0x3EB16b38DfE7725e699e0A76Cf668a690ca0C34C";
 const MUMBAI_SC_ADDRESS = "0x3EB16b38DfE7725e699e0A76Cf668a690ca0C34C";
 const getContractAddress = () => (true ? MUMBAI_SC_ADDRESS : POLYGON_SC_ADDRESS);
+
+
+/**
+ * Fetch the Sponsorship Certificate contract
+ */
+export const getSCContract = async (provider: providers.Provider): Promise<Contract> =>
+    new ethers.Contract(getContractAddress(), SponsorshipCertificateABI, provider);
+
 
 /**
  * Fetch information about the specified player.

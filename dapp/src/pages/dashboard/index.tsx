@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useAccount, useProvider } from "wagmi";
 import { CertificatesPanel } from "../../components/certificates-panel";
+import { FeedPanel } from "../../components/feed-panel";
 import { MessagesPanel } from "../../components/messages-panel";
 import { retrieveGameState } from "../../components/shared";
 
@@ -20,8 +21,10 @@ export const Dashboard = () => {
     return (
         <div className="dashboard">
             <Pyramid />
+
             <CertificatesPanel />
             <MessagesPanel />
+            <FeedPanel />
         </div>
     );
 };

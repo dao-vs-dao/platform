@@ -33,6 +33,8 @@ export const gameSlice = createSlice({
             });
             state.playersByAddress = playersByAddress;
             state.playersByCoords = playersByCoords;
+
+            console.log({playersByAddress, playersByCoords})
         }
     }
 });

@@ -1,0 +1,134 @@
+/* Button */
+
+.news-feed-panel-bt {
+    position: absolute;
+    left: 0;
+    width: 130px;
+    cursor: pointer;
+    background-image: linear-gradient(to right, #862e9c, #00abfb);
+    background-size: 300% 200%;
+    background-position: 100% 50%;
+    transition: background-position 0.3s linear;
+    padding: 7px 15px;
+    border-radius: 10px;
+    z-index: 99;
+}
+
+.news-feed-panel-bt:hover {
+    background-position: 0% 50%;
+}
+
+.news-feed-panel-bt__title {
+    margin-bottom: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    line-height: 20px;
+    justify-content: space-between;
+}
+
+.news-feed-panel-bt__unread {
+    border-radius: 100%;
+    background-color: #862e9c;
+    height: 20px;
+    width: 20px;
+    text-align: center;
+    font-weight: normal;
+    font-size: 0.9rem;
+}
+
+/* Panel */
+
+.news-feed-panel {
+    position: absolute;
+    left : 0;
+    width: min(300px, 80vw);
+    border: 1px solid #743fa9;
+    background-color: #1a1126;
+    padding: 7px 15px;
+    border-radius: 10px;
+    z-index: 100;
+}
+
+.news-feed-panel__close {
+    height: 22px;
+    width: 22px;
+    position: absolute;
+    right: 5px;
+    top: 8px;
+    cursor: pointer;
+}
+
+.news-feed-panel__close::after {
+    content: "✖";
+}
+
+.news-feed-panel__title {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.news-feed-panel__description {
+    margin-bottom: 30px;
+    font-size: 0.9rem;
+}
+
+.news-feed-panel__threads {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.news-feed-panel__chat-list-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.news-feed-panel__no-msg-text {
+    margin-bottom: 30px;
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+.news-feed-panel__news-list {
+    display: flex;
+    flex-direction: column-reverse;
+    row-gap: 15px;
+}
+
+/* News List */
+
+.news {
+    display: flex;
+    flex-direction: column;
+}
+
+.news--unread {
+    background: #fff1;
+    padding: 5px;
+}
+
+.news__content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.news__proximity {
+    height: 20px;
+    width: 20px;
+    border-radius: 100%;
+}
+
+.news__text {
+
+}
+
+.news__date {
+    font-size: 0.75rem;
+    color: #fff5;
+    text-align: right;
+}

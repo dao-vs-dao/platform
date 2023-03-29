@@ -1,6 +1,6 @@
 import { bigNumberToFloat } from "../data/big-number-to-float";
 import { roundAtFifthDecimal } from "../data/utils";
-import { coordsFromBigNumber, ICoords } from "./i-coords";
+import { BNToPOJOCoords, ICoords } from "./i-coords";
 
 export interface IPlayer {
     userAddress: string;
@@ -20,7 +20,7 @@ export const calculateWorth = (player: IPlayer) =>
 export const BNToPOJOPlayer = (player: any) =>
     ({
         userAddress: player.userAddress,
-        coords: coordsFromBigNumber(player.coords),
+        coords: BNToPOJOCoords(player.coords),
         balance: bigNumberToFloat(player.balance, 5),
         sponsorships: bigNumberToFloat(player.sponsorships, 5),
         claimable: bigNumberToFloat(player.claimable, 5),

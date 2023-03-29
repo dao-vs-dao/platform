@@ -6,7 +6,7 @@ export interface ICoords {
     column: number;
 }
 
-export const coordsFromBigNumber = (coords: {
+export const BNToPOJOCoords = (coords: {
     realm: BigNumber;
     row: BigNumber;
     column: BigNumber;
