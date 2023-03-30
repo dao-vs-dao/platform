@@ -2,14 +2,13 @@ import React, { useEffect } from "react";
 import { BigNumber, Event } from "ethers";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { useProvider } from "wagmi";
+import { useAccount, useProvider } from "wagmi";
 
 import { ICoords } from "../../@types/i-coords";
 import { INews } from "../../@types/i-feed";
 import { bigNumberToFloat } from "../../data/big-number-to-float";
 import { compactAddress } from "../../data/compact-address";
 import { pushNews } from "../../state/slices/feed-slice";
-import { RootState } from "../../state/store";
 import { retrieveGameState } from "../shared";
 import { getDVDContract } from "../../data/dao-vs-dao-contract";
 import { roundAtFifthDecimal } from "../../data/utils";
@@ -17,8 +16,8 @@ import { NR_BLOCKS } from "./shared";
 
 export const DVDEventListener = () => {
     const dispatch = useDispatch();
+    const { address } = useAccount();
     const provider = useProvider();
-    const currentPlayer = useSelector((state: RootState) => state.player.currentPlayer);
 
     const removeListeners = async () => {
         const dvdContract = await getDVDContract(provider);
@@ -83,7 +82,7 @@ export const DVDEventListener = () => {
             block: wholeEvent.blockNumber
         };
         dispatch(pushNews({ news: newsPiece }));
-        if (!isOldEvent) retrieveGameState(dispatch, provider, currentPlayer?.userAddress);
+        if (!isOldEvent) retrieveGameState(dispatch, provider, address);
     };
 
     const handleRowAddedEvent = (
@@ -99,7 +98,7 @@ export const DVDEventListener = () => {
             block: wholeEvent.blockNumber
         };
         dispatch(pushNews({ news: newsPiece }));
-        if (!isOldEvent) retrieveGameState(dispatch, provider, currentPlayer?.userAddress);
+        if (!isOldEvent) retrieveGameState(dispatch, provider, address);
     };
 
     const handleUserPlacedEvent = (
@@ -118,7 +117,7 @@ export const DVDEventListener = () => {
             block: wholeEvent.blockNumber
         };
         dispatch(pushNews({ news: newsPiece }));
-        if (!isOldEvent) retrieveGameState(dispatch, provider, currentPlayer?.userAddress);
+        if (!isOldEvent && address !== user) retrieveGameState(dispatch, provider, address);
     };
 
     const handleUserSlashedEvent = (
@@ -141,7 +140,7 @@ export const DVDEventListener = () => {
             block: wholeEvent.blockNumber
         };
         dispatch(pushNews({ news: newsPiece }));
-        if (!isOldEvent) retrieveGameState(dispatch, provider, currentPlayer?.userAddress);
+        if (!isOldEvent && address !== attacker) retrieveGameState(dispatch, provider, address);
     };
 
     const uniqueId = () => Math.floor(Math.random() * 10000000).toString();

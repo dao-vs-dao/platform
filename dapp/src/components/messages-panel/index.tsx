@@ -20,6 +20,12 @@ export const MessagesPanel = () => {
     const ws: React.MutableRefObject<null | WebSocket> = useRef(null);
 
     const connectSocket = () => {
+        if (ws.current !== null) {
+            console.warn("Trying to reconnect with open socket. Closing old one.");
+            ws.current.close();
+            ws.current = null;
+        }
+
         // if user is not authenticated, we should NOT establish a connection
         if (!currentPlayer) {
             ws.current = null;
@@ -45,7 +51,7 @@ export const MessagesPanel = () => {
         return () => {
             ws.current?.close();
         };
-    }, [currentPlayer]);
+    }, [currentPlayer?.userAddress]);
 
     return isModalOpen ? <OpenMessagesPanel ws={ws} /> : <ClosedMessagesPanel />;
 };

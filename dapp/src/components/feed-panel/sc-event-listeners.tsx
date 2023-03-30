@@ -1,15 +1,13 @@
 import React, { useEffect } from "react";
 import { BigNumber, Event } from "ethers";
-import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { useProvider } from "wagmi";
+import { useAccount, useProvider } from "wagmi";
 
 import { INews } from "../../@types/i-feed";
 import { bigNumberToFloat } from "../../data/big-number-to-float";
 import { compactAddress } from "../../data/compact-address";
 import { getSCContract } from "../../data/sponsorship-certificate-contract";
 import { pushNews } from "../../state/slices/feed-slice";
-import { RootState } from "../../state/store";
 import { retrieveGameState } from "../shared";
 import { roundAtFifthDecimal } from "../../data/utils";
 import { NR_BLOCKS } from "./shared";
@@ -17,7 +15,7 @@ import { NR_BLOCKS } from "./shared";
 export const SCEventListener = () => {
     const dispatch = useDispatch();
     const provider = useProvider();
-    const currentPlayer = useSelector((state: RootState) => state.player.currentPlayer);
+    const { address } = useAccount();
 
     const removeListeners = async () => {
         const scContract = await getSCContract(provider);
@@ -67,7 +65,7 @@ export const SCEventListener = () => {
             epicenter: sponsorshipReceiver
         };
         dispatch(pushNews({ news: newsPiece }));
-        if (!isOldEvent) retrieveGameState(dispatch, provider, currentPlayer?.userAddress);
+        if (!isOldEvent && address !== sponsor) retrieveGameState(dispatch, provider, address);
     };
 
     const handleCertificateRedeemedEvent = (
@@ -89,7 +87,7 @@ export const SCEventListener = () => {
             epicenter: redeemer
         };
         dispatch(pushNews({ news: newsPiece }));
-        if (!isOldEvent) retrieveGameState(dispatch, provider, currentPlayer?.userAddress);
+        if (!isOldEvent && address !== redeemer) retrieveGameState(dispatch, provider, address);
     };
 
     const uniqueId = () => Math.floor(Math.random() * 10000000).toString();
