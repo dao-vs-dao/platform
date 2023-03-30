@@ -4,6 +4,7 @@ import { ISponsorshipCertificate } from "../../@types/i-sponsoring";
 
 export type SponsoringState = {
     isModalOpen: boolean;
+    isInitiationModalOpen: boolean;
     sponsoringAddress?: string;
     ownedCertificates: ISponsorshipCertificate[];
     beneficiaryCertificates: ISponsorshipCertificate[];
@@ -13,6 +14,7 @@ export type SponsoringState = {
 
 const initialState: SponsoringState = {
     isModalOpen: false,
+    isInitiationModalOpen: false,
     ownedCertificates: [],
     beneficiaryCertificates: [],
     sponsoredPlayers: {},
@@ -28,10 +30,17 @@ export const sponsoringSlice = createSlice({
         },
         closeSponsoringModal: (state) => {
             state.isModalOpen = false;
-            state.sponsoringAddress = undefined;
         },
         toggleSponsoringModal: (state) => {
             state.isModalOpen = !state.isModalOpen;
+        },
+        openInitiationModal: (state, action: PayloadAction<{ otherPlayer: string }>) => {
+            state.isInitiationModalOpen = true;
+            state.sponsoringAddress = action.payload.otherPlayer;
+        },
+        closeInitiationModal: (state) => {
+            state.isInitiationModalOpen = false;
+            state.sponsoringAddress = undefined;
         },
         setPlayerCertificates: (
             state,
@@ -58,6 +67,12 @@ export const sponsoringSlice = createSlice({
     }
 });
 
-export const { openSponsoringModal, closeSponsoringModal, setPlayerCertificates, toggleSponsoringModal } =
-    sponsoringSlice.actions;
+export const {
+    openSponsoringModal,
+    closeSponsoringModal,
+    setPlayerCertificates,
+    toggleSponsoringModal,
+    openInitiationModal,
+    closeInitiationModal
+} = sponsoringSlice.actions;
 export default sponsoringSlice.reducer;
