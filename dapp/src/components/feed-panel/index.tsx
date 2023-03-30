@@ -92,9 +92,9 @@ const PieceOfNews = ({ news }: { news: INews; }) => {
     const currentPlayer = useSelector((state: RootState) => state.player.currentPlayer);
     const playersByAddress = useSelector((state: RootState) => state.game.playersByAddress);
 
-    const distance = calculateDistance(news.epicenter, currentPlayer, playersByAddress);
+    const distance = calculateDistance(news.epicenter, currentPlayer, playersByAddress) ?? 1000;
     const proximity = getProximity(distance);
-    const proximityIcon = <div className="news__proximity" style={{ backgroundColor: getProximityColor(proximity) }} />;
+    const proximityIcon = <div className="news__proximity" style={{ backgroundColor: getDistanceColor(distance) }} />;
     return <div
         className={`news ${news.unread ? "news--unread" : ""}`}
     >
@@ -137,14 +137,20 @@ const getProximityMessage = (proximity: Proximity) => {
     }
 };
 
-const getProximityColor = (proximity: Proximity) => {
-    switch (proximity) {
-        case Proximity.You: return "#087f5b";
-        case Proximity.Neighborhood: return "#A82A2A";
-        case Proximity.Close: return "#E55837";
-        case Proximity.Around: return "#FFC34D";
-        case Proximity.QuiteFar: return "#A9C9E3";
-        case Proximity.NoIdeaWhere: return "#4863A0";
-        default: return "#CFCFCF";
-    }
+const getDistanceColor = (distance: number) => {
+    if (distance === 0) return "#FFFFFF";
+    if (distance >= 1000) return "#14746F";
+
+    // const SCALE_START = "#6A040F";
+    // const SCALE_END = "#14746F";
+    const red1: number = 106; // parseInt(SCALE_START.substring(1, 3), 16);
+    const green1: number = 4; // parseInt(SCALE_START.substring(3, 5), 16);
+    const blue1: number = 15; // parseInt(SCALE_START.substring(5, 7), 16);
+    const red2: number = 20; // parseInt(SCALE_END.substring(1, 3), 16);
+    const green2: number = 116; // parseInt(SCALE_END.substring(3, 5), 16);
+    const blue2: number = 111; // parseInt(SCALE_END.substring(5, 7), 16);
+    const red: number = Math.round(red1 + (red2 - red1) * distance / 1000);
+    const green: number = Math.round(green1 + (green2 - green1) * distance / 1000);
+    const blue: number = Math.round(blue1 + (blue2 - blue1) * distance / 1000);
+    return "#" + red.toString(16).padStart(2, "0") + green.toString(16).padStart(2, "0") + blue.toString(16).padStart(2, "0");
 };
