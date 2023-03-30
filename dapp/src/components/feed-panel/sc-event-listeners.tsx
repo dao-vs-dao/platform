@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
-import { BigNumber, Contract, Event } from "ethers";
+import { BigNumber, Event } from "ethers";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useProvider } from "wagmi";
 
-import { ICoords, pyramidDistance } from "../../@types/i-coords";
 import { INews } from "../../@types/i-feed";
 import { bigNumberToFloat } from "../../data/big-number-to-float";
 import { compactAddress } from "../../data/compact-address";
@@ -13,6 +12,7 @@ import { pushNews } from "../../state/slices/feed-slice";
 import { RootState } from "../../state/store";
 import { retrieveGameState } from "../shared";
 import { roundAtFifthDecimal } from "../../data/utils";
+import { NR_BLOCKS } from "./shared";
 
 export const SCEventListener = () => {
     const dispatch = useDispatch();
@@ -40,7 +40,6 @@ export const SCEventListener = () => {
 
     const fetchLatestEvents = async () => {
         const scContract = await getSCContract(provider);
-        const NR_BLOCKS = 100000;
 
         const certificateEmittedFilter = scContract.filters.CertificateEmitted();
         let certEmittedEvents = await scContract.queryFilter(certificateEmittedFilter, -NR_BLOCKS, "latest");
@@ -62,7 +61,7 @@ export const SCEventListener = () => {
         const newsPiece: INews = {
             id: uniqueId(),
             timestamp: isOldEvent ? undefined : Date.now(),
-            text: `${compactAddress(sponsor)} just sponsored ${compactAddress(sponsorshipReceiver)} for ${bigNumberToFloat(amount)} DVD`,
+            text: `${compactAddress(sponsorshipReceiver)} has been sponsored by ${compactAddress(sponsor)}, for ${bigNumberToFloat(amount)} DVD`,
             unread: !isOldEvent,
             block: wholeEvent.blockNumber,
             epicenter: sponsorshipReceiver
@@ -87,7 +86,7 @@ export const SCEventListener = () => {
             text: `${compactAddress(redeemer)} just redeemed certificate #${certificateId}, from ${compactAddress(sponsorshipReceiver)} for a ${isProfit ? "profit" : "loss"} of ${Math.abs(profit)} DVD`,
             unread: !isOldEvent,
             block: wholeEvent.blockNumber,
-            epicenter: sponsorshipReceiver
+            epicenter: redeemer
         };
         dispatch(pushNews({ news: newsPiece }));
         if (!isOldEvent) retrieveGameState(dispatch, provider, currentPlayer?.userAddress);

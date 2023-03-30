@@ -13,6 +13,7 @@ import { RootState } from "../../state/store";
 import { retrieveGameState } from "../shared";
 import { getDVDContract } from "../../data/dao-vs-dao-contract";
 import { roundAtFifthDecimal } from "../../data/utils";
+import { NR_BLOCKS } from "./shared";
 
 export const DVDEventListener = () => {
     const dispatch = useDispatch();
@@ -52,7 +53,6 @@ export const DVDEventListener = () => {
 
     const fetchLatestEvents = async () => {
         const dvdContract = await getDVDContract(provider);
-        const NR_BLOCKS = 100000;
 
         const realmAddedFilter = dvdContract.filters.RealmAdded();
         let realmAddedEvents = await dvdContract.queryFilter(realmAddedFilter, -NR_BLOCKS, "latest");
@@ -77,9 +77,9 @@ export const DVDEventListener = () => {
         isOldEvent: boolean = false) => {
         const newsPiece: INews = {
             id: uniqueId(),
-            timestamp: Date.now(),
+            timestamp: isOldEvent ? undefined : Date.now(),
             text: `A new realm has been added! Players will be able to start or migrate there. Which riches and challenges are awaiting the first colonists?`,
-            unread: true,
+            unread: !isOldEvent,
             block: wholeEvent.blockNumber
         };
         dispatch(pushNews({ news: newsPiece }));
@@ -93,9 +93,9 @@ export const DVDEventListener = () => {
         isOldEvent: boolean = false) => {
         const newsPiece: INews = {
             id: uniqueId(),
-            timestamp: Date.now(),
+            timestamp: isOldEvent ? undefined : Date.now(),
             text: `A new row has been added. New players will be able to start from there`,
-            unread: true,
+            unread: !isOldEvent,
             block: wholeEvent.blockNumber
         };
         dispatch(pushNews({ news: newsPiece }));
@@ -111,9 +111,9 @@ export const DVDEventListener = () => {
         isOldEvent: boolean = false) => {
         const newsPiece: INews = {
             id: uniqueId(),
-            timestamp: Date.now(),
-            text: `${compactAddress(user)} has joined the game! It was referred by ${referrer}. There are now ${usersCount.toNumber()} users playing DaoVsDao`,
-            unread: true,
+            timestamp: isOldEvent ? undefined : Date.now(),
+            text: `${compactAddress(user)} has joined the game! It was referred by ${compactAddress(referrer)}. There are now ${usersCount.toNumber()} users playing DaoVsDao`,
+            unread: !isOldEvent,
             epicenter: user,
             block: wholeEvent.blockNumber
         };
@@ -134,9 +134,9 @@ export const DVDEventListener = () => {
         const earned = roundAtFifthDecimal(bigNumberToFloat(subtractedFromAttackedBalance) + bigNumberToFloat(subtractedFromAttackedSponsorships));
         const newsPiece: INews = {
             id: uniqueId(),
-            timestamp: Date.now(),
-            text: `${compactAddress(attacker)} has attacked ${attacked}, earning ${earned} DVD. ${compactAddress(attacker)} is now vulnerable for 12h and  ${attacked} cannot be attacked for 24h.`,
-            unread: true,
+            timestamp: isOldEvent ? undefined : Date.now(),
+            text: `${compactAddress(attacker)} has attacked ${compactAddress(attacked)}, earning ${earned} DVD. ${compactAddress(attacker)} is now vulnerable for 12h and  ${compactAddress(attacked)} cannot be attacked for 24h.`,
+            unread: !isOldEvent,
             epicenter: attacker,
             block: wholeEvent.blockNumber
         };

@@ -116,16 +116,18 @@ const calculateDistance = (
     return pyramidDistance(currentPlayer.coords, playersByAddress[epicenter].coords);
 };
 
-enum Proximity { Neighborhood, Close, Around, QuiteFar, NoIdeaWhere }
+enum Proximity { You, Neighborhood, Close, Around, QuiteFar, NoIdeaWhere }
 const getProximity = (distance?: number): Proximity =>
-    !distance ? Proximity.NoIdeaWhere
+    distance === undefined ? Proximity.NoIdeaWhere
         : distance > 500 ? Proximity.QuiteFar
             : distance > 320 ? Proximity.Around
                 : distance > 100 ? Proximity.Close
-                    : Proximity.Neighborhood;
+                    : distance > 0 ? Proximity.Neighborhood
+                        : Proximity.You;
 
 const getProximityMessage = (proximity: Proximity) => {
     switch (proximity) {
+        case Proximity.You: return "You're on the news!";
         case Proximity.Neighborhood: return "Very close to you!";
         case Proximity.Close: return "In your visible area";
         case Proximity.Around: return "Just outside your visible area";
@@ -137,6 +139,7 @@ const getProximityMessage = (proximity: Proximity) => {
 
 const getProximityColor = (proximity: Proximity) => {
     switch (proximity) {
+        case Proximity.You: return "#087f5b";
         case Proximity.Neighborhood: return "#A82A2A";
         case Proximity.Close: return "#E55837";
         case Proximity.Around: return "#FFC34D";
