@@ -6,7 +6,7 @@ import { ISponsorshipCertificate } from "../../@types/i-sponsoring";
 import { redeemCertificate } from "../../data/sponsorship-certificate-contract";
 import { roundAtFifthDecimal } from "../../data/utils";
 
-import { closeSponsoringModal, openSponsoringModal } from "../../state/slices/sponsoring-slice";
+import { closeSponsoringModal, toggleSponsoringModal } from "../../state/slices/sponsoring-slice";
 import { RootState } from "../../state/store";
 import { retrieveGameState } from "../shared";
 import { errorToast, promiseToast } from "../toaster";
@@ -15,27 +15,22 @@ import "./styles.css";
 
 export const CertificatesPanel = () => {
     const isModalOpen = useSelector((state: RootState) => state.sponsoring.isModalOpen);
-    return isModalOpen ? <OpenCertificatesPanel /> : <ClosedCertificatesPanel />;
+    return <>
+        <ClosedCertificatesPanel />
+        {isModalOpen ? <OpenCertificatesPanel /> : null}
+    </>;
 };
 
 const ClosedCertificatesPanel = () => {
     const dispatch = useDispatch();
-    const owned = useSelector((state: RootState) => state.sponsoring.ownedCertificates);
-    const beneficiary = useSelector((state: RootState) => state.sponsoring.beneficiaryCertificates);
+    const isModalOpen = useSelector((state: RootState) => state.sponsoring.isModalOpen);
 
-    const openPanel = () => dispatch(openSponsoringModal({}));
+    const openPanel = () => dispatch(toggleSponsoringModal());
 
-    return <div className="certificate-panel-bt" onClick={openPanel}>
-        <div className="certificate-panel-bt__title">Sponsorships:</div>
-
-        <div className="certificate-panel-bt__row">
-            Owned:
-            <div className="certificate-panel-bt__nr certificate-panel-bt__nr--owned">{owned.length}</div>
-        </div>
-        <div className="certificate-panel-bt__row">
-            Beneficiary:
-            <div className="certificate-panel-bt__nr certificate-panel-bt__nr--beneficiary">{beneficiary.length}</div>
-        </div>
+    return <div
+        className={`certificate-panel-bt ${isModalOpen ? "certificate-panel-bt--pressed" : ""}`}
+        onClick={openPanel}>
+        <div className="certificate-panel-bt__icon" />
     </div>;
 };
 
@@ -54,7 +49,7 @@ const OpenCertificatesPanel = () => {
     const sum = (n: number[]) => roundAtFifthDecimal(n.reduce((prev, curr) => curr + prev, 0));
     const calculateCost = (certs: ISponsorshipCertificate[]) => sum(certs.map(c => c.amount));
     const calculateRedeemed = (certs: ISponsorshipCertificate[]) => sum(certs.map(c => c.redeemed));
-    const closePanel = () => dispatch(closeSponsoringModal({}));
+    const closePanel = () => dispatch(closeSponsoringModal());
 
     const redeemSponsorshipCertificate = async (certificateId: number) => {
         if (!address) {

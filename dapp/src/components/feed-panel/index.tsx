@@ -5,7 +5,7 @@ import { pyramidDistance } from "../../@types/i-coords";
 import { INews } from "../../@types/i-feed";
 import { IPlayer } from "../../@types/i-player";
 
-import { closeFeedModal, openFeedModal, setNewsAsRead } from "../../state/slices/feed-slice";
+import { closeFeedModal, setNewsAsRead, toggleFeedModal } from "../../state/slices/feed-slice";
 import { PlayersDict } from "../../state/slices/game-slice";
 import { RootState } from "../../state/store";
 import { Tooltip, TooltipSize } from "../tooltip";
@@ -19,23 +19,23 @@ export const FeedPanel = () => {
     return <>
         <DVDEventListener />
         <SCEventListener />
-        {isModalOpen ? <OpenFeedPanel /> : <ClosedFeedPanel />}
+        <ClosedFeedPanel />
+        {isModalOpen ? <OpenFeedPanel /> : null}
     </>;
 };
 
 const ClosedFeedPanel = () => {
     const dispatch = useDispatch();
+    const isModalOpen = useSelector((state: RootState) => state.newsFeed.isModalOpen);
     const unread = useSelector((state: RootState) => state.newsFeed.unread);
 
-    const openPanel = () => dispatch(openFeedModal({}));
+    const openPanel = () => dispatch(toggleFeedModal());
 
-    return <div className="news-feed-panel-bt" onClick={openPanel}>
-        <div className="news-feed-panel-bt__title">
-            News Feed
-            {unread > 0
-                ? <div className="news-feed-panel-bt__unread">{unread}</div>
-                : null}
-        </div>
+    return <div
+        className={`news-feed-panel-bt ${isModalOpen ? "news-feed-panel-bt--pressed" : ""}`}
+        onClick={openPanel}>
+        <div className="news-feed-panel-bt__icon" />
+        {unread > 0 ? <div className="news-feed-panel-bt__count">{unread}</div> : null}
     </div>;
 };
 
@@ -45,7 +45,7 @@ const OpenFeedPanel = () => {
     const feed = useSelector((state: RootState) => state.newsFeed.feed);
     const ref: MutableRefObject<any> = useRef(null);
 
-    const closePanel = () => dispatch(closeFeedModal({}));
+    const closePanel = () => dispatch(closeFeedModal());
 
     useEffect(() => {
         dispatch(setNewsAsRead({}));

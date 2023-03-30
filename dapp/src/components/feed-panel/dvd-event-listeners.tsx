@@ -151,5 +151,5 @@ export const DVDEventListener = () => {
         return () => void removeListeners();
     }, []);
 
-    return <div id="id-dvd-events-listener" />;
+    return <div style={{ display: "none" }} id="id-dvd-events-listener" />;
 };

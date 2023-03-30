@@ -98,5 +98,5 @@ export const SCEventListener = () => {
         return () => void removeListeners();
     }, []);
 
-    return <div id="id-sc-events-listener" />;
+    return <div style={{ display: "none" }} id="id-sc-events-listener" />;
 };

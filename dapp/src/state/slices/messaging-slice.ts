@@ -29,8 +29,11 @@ export const messagingSlice = createSlice({
             if (other && !state.chat[other]) state.chat[other] = [];
             state.selectedChat = other;
         },
-        closeMessagingModal: (state, action: PayloadAction<{}>) => {
+        closeMessagingModal: (state) => {
             state.isModalOpen = false;
+        },
+        toggleMessagingModal: (state) => {
+            state.isModalOpen = !state.isModalOpen;
         },
         pushMessages: (state, action: PayloadAction<{ player: string; messages: IMessage[] }>) => {
             for (const message of action.payload.messages) {
@@ -45,7 +48,7 @@ export const messagingSlice = createSlice({
         setThreadAsRead: (state, action: PayloadAction<{ thread: string }>) => {
             delete state.unread[action.payload.thread];
         },
-        deleteMessages: (state, action: PayloadAction<{}>) => {
+        deleteMessages: (state) => {
             state.chat = {};
             state.unread = {};
         }
@@ -55,6 +58,7 @@ export const messagingSlice = createSlice({
 export const {
     openMessagingModal,
     closeMessagingModal,
+    toggleMessagingModal,
     pushMessages,
     setThreadAsRead,
     deleteMessages

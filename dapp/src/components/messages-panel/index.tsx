@@ -7,7 +7,7 @@ import { compactAddress } from "../../data/compact-address";
 
 import { wssBackendUrl } from "../../services/backend-url-fetcher";
 import { setThreadAsReadInBackend } from "../../services/messaging";
-import { closeMessagingModal, deleteMessages, openMessagingModal, pushMessages, setThreadAsRead } from "../../state/slices/messaging-slice";
+import { closeMessagingModal, deleteMessages, openMessagingModal, pushMessages, setThreadAsRead, toggleMessagingModal } from "../../state/slices/messaging-slice";
 import { RootState } from "../../state/store";
 import { errorToast } from "../toaster";
 import "./styles.css";
@@ -35,7 +35,7 @@ export const MessagesPanel = () => {
         const socket = new WebSocket(wssBackendUrl);
         socket.onopen = () => console.debug("Messaging socket opened");
         socket.onclose = () => {
-            dispatch(deleteMessages({}));
+            dispatch(deleteMessages());
             console.debug("Messaging socket closed, trying to reconnect...");
             connectSocket();
         };
@@ -53,23 +53,25 @@ export const MessagesPanel = () => {
         };
     }, [currentPlayer?.userAddress]);
 
-    return isModalOpen ? <OpenMessagesPanel ws={ws} /> : <ClosedMessagesPanel />;
+    return <>
+        <ClosedMessagesPanel />
+        {isModalOpen ? <OpenMessagesPanel ws={ws} /> : null}
+    </>;
 };
 
 const ClosedMessagesPanel = () => {
     const dispatch = useDispatch();
+    const isModalOpen = useSelector((state: RootState) => state.messaging.isModalOpen);
     const unread = useSelector((state: RootState) => state.messaging.unread);
-    const totalUnread = Object.values(unread).reduce((prev, next) => prev + next, 0);
+    const countUnread = Object.values(unread).reduce((prev, next) => prev + next, 0);
 
-    const openPanel = () => dispatch(openMessagingModal({}));
+    const openPanel = () => dispatch(toggleMessagingModal());
 
-    return <div className="messages-panel-bt" onClick={openPanel}>
-        <div className="messages-panel-bt__title">
-            Messages
-            {totalUnread > 0
-                ? <div className="messages-panel-bt__unread">{totalUnread}</div>
-                : null}
-        </div>
+    return <div
+        className={`messages-panel-bt ${isModalOpen ? "messages-panel-bt--pressed" : ""}`}
+        onClick={openPanel}>
+        <div className="messages-panel-bt__icon" />
+        {countUnread > 0 ? <div className="messages-panel-bt__count">{countUnread}</div> : null}
     </div>;
 };
 
@@ -84,7 +86,7 @@ const OpenMessagesPanel = ({ ws }: { ws: React.MutableRefObject<null | WebSocket
     const [text, setText] = useState<string>("");
 
     const hasMessages = Object.keys(chat).length > 0;
-    const closePanel = () => dispatch(closeMessagingModal({}));
+    const closePanel = () => dispatch(closeMessagingModal());
     const setSelected = (address?: string) => dispatch(openMessagingModal({ otherPlayer: address }));
 
     const sendMessage = () => {

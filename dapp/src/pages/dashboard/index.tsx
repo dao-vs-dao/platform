@@ -22,9 +22,11 @@ export const Dashboard = () => {
         <div className="dashboard">
             <Pyramid />
 
-            <CertificatesPanel />
-            <MessagesPanel />
-            <FeedPanel />
+            <div className="dashboard__actions">
+                <CertificatesPanel />
+                <MessagesPanel />
+                <FeedPanel />
+            </div>
         </div>
     );
 };

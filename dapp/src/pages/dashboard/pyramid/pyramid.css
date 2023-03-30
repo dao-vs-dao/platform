@@ -5,6 +5,7 @@
     user-select: none;
     align-items: center;
     justify-content: flex-start;
+    margin-top: 60px;
 }
 
 .pyramid__cells {

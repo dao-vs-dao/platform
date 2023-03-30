@@ -19,11 +19,14 @@ export const feedSlice = createSlice({
     name: "feed",
     initialState,
     reducers: {
-        openFeedModal: (state, action: PayloadAction<{}>) => {
+        openFeedModal: (state) => {
             state.isModalOpen = true;
         },
-        closeFeedModal: (state, action: PayloadAction<{}>) => {
+        closeFeedModal: (state) => {
             state.isModalOpen = false;
+        },
+        toggleFeedModal: (state) => {
+            state.isModalOpen = !state.isModalOpen;
         },
         pushNews: (state, action: PayloadAction<{ news: INews }>) => {
             // insert the news keeping the array sorted by "block"
@@ -46,5 +49,5 @@ export const feedSlice = createSlice({
     }
 });
 
-export const { openFeedModal, closeFeedModal, pushNews, setNewsAsRead } = feedSlice.actions;
+export const { openFeedModal, closeFeedModal, pushNews, setNewsAsRead, toggleFeedModal } = feedSlice.actions;
 export default feedSlice.reducer;

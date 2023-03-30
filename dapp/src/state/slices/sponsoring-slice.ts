@@ -23,12 +23,15 @@ export const sponsoringSlice = createSlice({
     name: "sponsoring",
     initialState,
     reducers: {
-        openSponsoringModal: (state, action: PayloadAction<{}>) => {
+        openSponsoringModal: (state) => {
             state.isModalOpen = true;
         },
-        closeSponsoringModal: (state, action: PayloadAction<{}>) => {
+        closeSponsoringModal: (state) => {
             state.isModalOpen = false;
             state.sponsoringAddress = undefined;
+        },
+        toggleSponsoringModal: (state) => {
+            state.isModalOpen = !state.isModalOpen;
         },
         setPlayerCertificates: (
             state,
@@ -55,6 +58,6 @@ export const sponsoringSlice = createSlice({
     }
 });
 
-export const { openSponsoringModal, closeSponsoringModal, setPlayerCertificates } =
+export const { openSponsoringModal, closeSponsoringModal, setPlayerCertificates, toggleSponsoringModal } =
     sponsoringSlice.actions;
 export default sponsoringSlice.reducer;

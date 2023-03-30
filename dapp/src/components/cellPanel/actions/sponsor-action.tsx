@@ -7,7 +7,6 @@ import { coordToString, ICoords } from "../../../@types/i-coords";
 import { IPlayer } from "../../../@types/i-player";
 import { sponsor } from "../../../data/dao-vs-dao-contract";
 import { setSelectedCoords } from "../../../state/slices/player-slice";
-import { openSponsoringModal } from "../../../state/slices/sponsoring-slice";
 import { RootState } from "../../../state/store";
 import { retrieveGameState } from "../../shared";
 import { errorToast, promiseToast } from "../../toaster";
