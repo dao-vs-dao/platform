@@ -6,7 +6,7 @@ import { ISponsorshipCertificate } from "../../@types/i-sponsoring";
 import { shortenAddress } from "../../data/compact-address";
 import { sponsor } from "../../data/dao-vs-dao-contract";
 import { redeemCertificate } from "../../data/sponsorship-certificate-contract";
-import { roundAtFifthDecimal } from "../../data/utils";
+import { roundAtForthDecimal } from "../../data/utils";
 
 import { closeInitiationModal, closeSponsoringModal, toggleSponsoringModal } from "../../state/slices/sponsoring-slice";
 import { RootState } from "../../state/store";
@@ -51,7 +51,7 @@ const OpenCertificatesPanel = () => {
     const closed = owned.filter(cert => cert.closed);
     const ref: MutableRefObject<any> = useRef(null);
 
-    const sum = (n: number[]) => roundAtFifthDecimal(n.reduce((prev, curr) => curr + prev, 0));
+    const sum = (n: number[]) => roundAtForthDecimal(n.reduce((prev, curr) => curr + prev, 0));
     const calculateCost = (certs: ISponsorshipCertificate[]) => sum(certs.map(c => c.amount));
     const calculateRedeemed = (certs: ISponsorshipCertificate[]) => sum(certs.map(c => c.redeemed));
     const closePanel = () => dispatch(closeSponsoringModal());
@@ -140,7 +140,7 @@ const OpenCertificatesPanel = () => {
                         {closed.map(cert => <SponsorshipCertificate key={cert.id} cert={cert} />)}
                     </div>
                     <div className="certificate-panel__stats">
-                        <div>Net profits: {roundAtFifthDecimal(calculateRedeemed(closed) - calculateCost(closed))} DVD</div>
+                        <div>Net profits: {roundAtForthDecimal(calculateRedeemed(closed) - calculateCost(closed))} DVD</div>
                     </div>
                 </>
                 : <div className="certificate-panel__list-msg">You didn't redeem any sponsorship</div>

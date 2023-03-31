@@ -11,7 +11,7 @@ import { compactAddress } from "../../data/compact-address";
 import { pushNews } from "../../state/slices/feed-slice";
 import { retrieveGameState } from "../shared";
 import { getDVDContract } from "../../data/dao-vs-dao-contract";
-import { roundAtFifthDecimal } from "../../data/utils";
+import { roundAtForthDecimal } from "../../data/utils";
 import { NR_BLOCKS } from "./shared";
 
 export const DVDEventListener = () => {
@@ -130,7 +130,7 @@ export const DVDEventListener = () => {
         addedToAttackerSponsorships: BigNumber,
         wholeEvent: Event,
         isOldEvent: boolean = false) => {
-        const earned = roundAtFifthDecimal(bigNumberToFloat(subtractedFromAttackedBalance) + bigNumberToFloat(subtractedFromAttackedSponsorships));
+        const earned = roundAtForthDecimal(bigNumberToFloat(subtractedFromAttackedBalance) + bigNumberToFloat(subtractedFromAttackedSponsorships));
         const newsPiece: INews = {
             id: uniqueId(),
             timestamp: isOldEvent ? undefined : Date.now(),

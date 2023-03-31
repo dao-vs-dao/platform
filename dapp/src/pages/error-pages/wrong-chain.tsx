@@ -11,7 +11,7 @@ export const WrongChainPage = ({ chainToUse }: { chainToUse: any; }) => {
             <div className="disconnected-page__title typewriter">Wrong chain</div>
             <br /><br />
             <button
-                className="button"
+                className="ui-button"
                 onClick={() => switchNetwork?.(chainToUse.id)}>
                 Switch to {chainToUse.name}
             </button>

@@ -1,5 +1,5 @@
 import { bigNumberToFloat } from "../data/big-number-to-float";
-import { roundAtFifthDecimal } from "../data/utils";
+import { roundAtForthDecimal } from "../data/utils";
 import { BNToPOJOCoords, ICoords } from "./i-coords";
 
 export interface IPlayer {
@@ -14,7 +14,7 @@ export interface IPlayer {
 
 /** The worth of the player (balance + sponsorships + claimable) */
 export const calculateWorth = (player: IPlayer) =>
-    roundAtFifthDecimal(player.balance + player.sponsorships + player.claimable);
+    roundAtForthDecimal(player.balance + player.sponsorships + player.claimable);
 
 /** Given a BigNumber-represented player, it returns a POJO version of it */
 export const BNToPOJOPlayer = (player: any) =>

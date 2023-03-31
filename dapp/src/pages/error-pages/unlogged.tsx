@@ -40,7 +40,7 @@ export const UnauthenticatedPage = () => {
             <div className="disconnected-page__title typewriter">Please, authenticate</div>
             <br /><br />
             <button
-                className="button"
+                className="ui-button"
                 onClick={triggerLogin}>
                 Authenticate
             </button>

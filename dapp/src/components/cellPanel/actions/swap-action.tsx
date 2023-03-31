@@ -7,7 +7,7 @@ import { canSwap, coordToString, ICoords } from "../../../@types/i-coords";
 import { calculateWorth, IPlayer } from "../../../@types/i-player";
 import { hasAttackCoolDown, hasRecoveryCoolDown } from "../../../data/cooldowns";
 import { swap } from "../../../data/dao-vs-dao-contract";
-import { roundAtFifthDecimal } from "../../../data/utils";
+import { roundAtForthDecimal } from "../../../data/utils";
 import { RootState } from "../../../state/store";
 import { retrieveGameState } from "../../shared";
 import { errorToast, promiseToast } from "../../toaster";
@@ -71,7 +71,7 @@ export const SwapAction = ({ coords, color }: {
         ? ""
         : !hasEnoughWorth
             ? `Your worth isn't enough to swap with this player
-            (need at least ${roundAtFifthDecimal(cellWorth * 1.2)} DVD)`
+            (need at least ${roundAtForthDecimal(cellWorth * 1.2)} DVD)`
             : attackingCoolDown
                 ? "You cannot attack until the cool-down wears off"
                 : targetCoolDown

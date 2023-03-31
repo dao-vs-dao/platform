@@ -68,13 +68,6 @@ export const App = ({ children }: { children: any; }) => {
                 </div>
             </div>
 
-            {/* Test environment message */}
-            {false && (
-                <div className="test-environment-warning">
-                    NOTE: You are currently using a test environment!!
-                </div>
-            )}
-
             {/* Page */}
             <div className="page">
                 {!address || !isConnected

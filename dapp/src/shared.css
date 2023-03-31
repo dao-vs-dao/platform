@@ -42,6 +42,8 @@
     align-items: center;
     outline: none;
     border: none;
+    color: #fff;
+    font-size: 1rem;
 }
 
 .ui-button--disabled {

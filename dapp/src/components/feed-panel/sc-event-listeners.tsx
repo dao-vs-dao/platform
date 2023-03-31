@@ -9,7 +9,7 @@ import { compactAddress } from "../../data/compact-address";
 import { getSCContract } from "../../data/sponsorship-certificate-contract";
 import { pushNews } from "../../state/slices/feed-slice";
 import { retrieveGameState } from "../shared";
-import { roundAtFifthDecimal } from "../../data/utils";
+import { roundAtForthDecimal } from "../../data/utils";
 import { NR_BLOCKS } from "./shared";
 
 export const SCEventListener = () => {
@@ -76,7 +76,7 @@ export const SCEventListener = () => {
         certificateId: BigNumber,
         wholeEvent: Event,
         isOldEvent: boolean = false) => {
-        const profit = roundAtFifthDecimal(bigNumberToFloat(redeemedAmount) - bigNumberToFloat(initialAmount));
+        const profit = roundAtForthDecimal(bigNumberToFloat(redeemedAmount) - bigNumberToFloat(initialAmount));
         const isProfit = profit > 0;
         const newsPiece: INews = {
             id: uniqueId(),
