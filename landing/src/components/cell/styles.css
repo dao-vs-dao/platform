@@ -1,0 +1,74 @@
+.cell {
+    position: absolute;
+    height: 100px;
+    width: 82px;
+}
+
+.cell__hovering-surface {
+    /* Adjusted to fit the rhomboid as closely as possible */
+    height: 70px;
+    width: 70px;
+    transform: rotate(45deg) scaleX(0.85) scaleY(0.85);
+    border-radius: 100%;
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    left: 7px;
+    z-index: 10;
+}
+
+.cell__hovering-surface:hover+svg .cell__fillable {
+    filter: brightness(2);
+}
+
+.cell__hovering-surface:hover~.cell__content {
+    filter: brightness(2);
+}
+
+.cell--far-away .cell__hovering-surface {
+    cursor: unset;
+}
+
+.cell--far-away .cell__hovering-surface:hover+svg .cell__fillable {
+    filter: unset;
+}
+
+.cell--far-away .cell__hovering-surface:hover~.cell__content {
+    filter: unset;
+}
+
+
+.cell__content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100px;
+    width: 82px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.cell--sponsoring .cell__content {
+    top: -3px;
+}
+
+.cell--sponsored .cell__content {
+    top: -3px;
+}
+
+.cell__content--highlighted {
+    font-weight: bold;
+}
+
+.cell__address {
+    font-size: 0.95rem;
+    filter: brightness(1.5);
+}
+
+.cell__worth {
+    font-size: 0.90rem;
+    filter: brightness(1.5);
+}

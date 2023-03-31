@@ -1,0 +1,59 @@
+.tooltip {
+    position: relative;
+    display: inline-block;
+    font-weight: normal;
+}
+
+.tooltip__content {
+    font-size: 0.9rem;
+    visibility: hidden;
+    width: 150px;
+    background-color: #000e;
+    color: #fff;
+    border-radius: 6px;
+    padding: 15px;
+    border: 1px solid #fff4;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    font-family: var(--regular);
+
+    /* Dark magic to have the tooltip always centered on the parent */
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.tooltip__content--small {
+    width: 110px;
+}
+
+.tooltip__content--large {
+    width: 400px;
+}
+
+.tooltip__content::after {
+    content: " ";
+    position: absolute;
+    top: 100%; /* At the bottom of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+}
+
+.tooltip:hover .tooltip__content {
+    visibility: visible;
+}
+
+/* Icons */
+
+.tooltip__icon {
+    margin-bottom: -4px;
+    margin-left: 8px;
+    cursor: help;
+    height: 20px;
+    width: 20px;
+    /* background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' class='icon icon-tabler icon-tabler-info-circle' viewBox='0 0 24 24' stroke-width='1.5' stroke='%23ffffff' fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath stroke='none' d='M0 0h24v24H0z' fill='none'/%3E%3Ccircle cx='12' cy='12' r='9' /%3E%3Cline x1='12' y1='8' x2='12.01' y2='8' /%3E%3Cpolyline points='11 12 12 12 12 16 13 16' /%3E%3C/svg%3E"); */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M12 0C18.6274 0 24 5.37258 24 12C24 18.6274 18.6274 24 12 24C5.37258 24 0 18.6274 0 12C0 5.37258 5.37258 0 12 0ZM12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM9 19V17H11V12H9V10H13V17H15V19H9ZM12 5C12.8284 5 13.5 5.67157 13.5 6.5C13.5 7.32843 12.8284 8 12 8C11.1716 8 10.5 7.32843 10.5 6.5C10.5 5.67157 11.1716 5 12 5Z' fill='%23AAA'/%3E%3C/svg%3E%0A");
+}

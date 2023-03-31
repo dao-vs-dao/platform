@@ -1,0 +1,32 @@
+.certificates {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 5px;
+    row-gap: 5px;
+}
+
+/* Single Certificate */
+
+.certificate {
+    background-color: #000;
+    border-radius: 5px;
+    border: 1px solid #fff2;
+}
+
+.certificate__image {
+    height: 100px;
+    width: 100px;
+}
+
+.certificate__image svg {
+    border-radius: 5px 5px 0 0;
+}
+
+.certificate__info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: -8px;
+    padding-bottom: 3px;
+}

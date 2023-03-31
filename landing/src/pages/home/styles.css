@@ -1,0 +1,30 @@
+.home-page {
+
+}
+
+.home-page__title {
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.home-page__subtitle {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.home-page__blocks {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+    align-items: center;
+}
+
+.home-page__element {
+    padding: 25px;
+}
+
+.chat-img {
+    height: 420px;
+}
