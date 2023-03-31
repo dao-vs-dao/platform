@@ -9,6 +9,7 @@ import { hasAttackCoolDown, hasRecoveryCoolDown, timeLeft } from "../../data/coo
 import { RootState } from "../../state/store";
 import { Tooltip } from "../tooltip";
 import { ClaimActions } from "./actions/claim-action";
+import { FocusAction } from "./actions/focus-action";
 import { MessageAction } from "./actions/message-action";
 import { SponsorAction } from "./actions/sponsor-action";
 import { SwapAction } from "./actions/swap-action";
@@ -102,6 +103,7 @@ export const PlayerCellPanel = ({ player, color, coords }: IPlayerCellPanelProps
                 <MessageAction color={color} coords={coords} />
                 <SponsorAction color={color} coords={coords} />
                 <SwapAction color={color} coords={coords} />
+                <FocusAction color={color} coords={coords} />
             </div>
         </div>
     );

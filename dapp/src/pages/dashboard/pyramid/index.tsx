@@ -13,6 +13,7 @@ export const Pyramid = () => {
     const gameData = useSelector((state: RootState) => state.game.gameData);
     const [realm, setRealm] = useState<number>(0);
     const currentPlayer = useSelector((state: RootState) => state.player.currentPlayer);
+    const focus = useSelector((state: RootState) => state.game.focus);
 
     const getCellPosition = (focusPoint: ICoords, coord: ICoords): { top: number, left: number; } => {
         const row = coord.row - focusPoint.row;
@@ -45,7 +46,7 @@ export const Pyramid = () => {
         return coordsFromLooseValues(realm, lastRow, lastCell);
     };
 
-    let focusPoint = currentPlayer ? currentPlayer.coords : getFirstEmptyCell();
+    let focusPoint = focus ? focus : currentPlayer ? currentPlayer.coords : getFirstEmptyCell();
     const flattenedCoordinates = gameData.lands[realm].map((addresses, row) =>
         addresses.map((_, column) => coordsFromLooseValues(realm, row, column)))
         .flat();

@@ -19,7 +19,6 @@ export const CertificatesPanel = () => {
     const isModalOpen = useSelector((state: RootState) => state.sponsoring.isModalOpen);
     const isInitModalOpen = useSelector((state: RootState) => state.sponsoring.isInitiationModalOpen);
 
-    console.log({ isInitModalOpen });
     return <>
         <ClosedCertificatesPanel />
         {isModalOpen ? <OpenCertificatesPanel /> : null}

@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { IGame } from "../../@types/i-game";
 import { IPlayer } from "../../@types/i-player";
-import { coordToString } from "../../@types/i-coords";
+import { coordToString, ICoords } from "../../@types/i-coords";
 
 export type PlayersDict = { [key: string]: IPlayer };
 
@@ -10,12 +10,15 @@ export type GameState = {
     gameData: IGame | null;
     playersByAddress: PlayersDict;
     playersByCoords: PlayersDict;
+    isRefreshing: boolean;
+    focus?: ICoords;
 };
 
 const initialState: GameState = {
     gameData: null,
     playersByAddress: {},
-    playersByCoords: {}
+    playersByCoords: {},
+    isRefreshing: false,
 };
 
 export const gameSlice = createSlice({
@@ -35,9 +38,15 @@ export const gameSlice = createSlice({
             state.playersByCoords = playersByCoords;
 
             console.log({playersByAddress, playersByCoords})
-        }
+        },
+        setIsRefreshing: (state, action: PayloadAction<{isRefreshing: boolean}>) => {
+            state.isRefreshing = action.payload.isRefreshing;
+        },
+        setFocus: (state, action: PayloadAction<{focus?: ICoords}>) => {
+            state.focus = action.payload.focus;
+        },
     }
 });
 
-export const { setGameData } = gameSlice.actions;
+export const { setGameData, setIsRefreshing, setFocus } = gameSlice.actions;
 export default gameSlice.reducer;
