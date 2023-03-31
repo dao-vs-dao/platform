@@ -14,16 +14,9 @@ export const App = ({ children }: { children: any; }) => {
             <div className="header">
                 <img src={logo} alt="DaoVsDao logo" className="header__page-logo" />
                 <div className="header__wallet-control">
-
+                    <a href="https://game.daovsdao.xyz" className="ui-button">Play Now</a>
                 </div>
             </div>
-
-            {/* Test environment message */}
-            {false && (
-                <div className="test-environment-warning">
-                    NOTE: You are currently using a test environment!!
-                </div>
-            )}
 
             {/* Page */}
             <div className="page">

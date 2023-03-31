@@ -1,32 +1,21 @@
 @font-face {
-    font-family: Raleway-Regular;
-    src: local(Raleway-Regular),
-        url(./assets/fonts/Raleway-Regular.woff2) format("woff2"),
-        url(./assets/fonts/Raleway-Regular.woff) format("woff"),
-        url(./assets/fonts/Raleway-Regular.ttf) format("truetype");
+    font-family: RobotoMono-Regular;
+    src: local(RobotoMono-Regular),
+        url(./assets/fonts/RobotoMono-Regular.woff2) format("woff2"),
+        url(./assets/fonts/RobotoMono-Regular.woff) format("woff"),
+        url(./assets/fonts/RobotoMono-Regular.ttf) format("truetype");
     font-weight: normal;
     font-style: normal;
     font-stretch: normal;
 }
 
 @font-face {
-    font-family: Raleway-Medium;
-    src: local(Raleway-Medium),
-        url(./assets/fonts/Raleway-Medium.woff2) format("woff2"),
-        url(./assets/fonts/Raleway-Medium.woff) format("woff"),
-        url(./assets/fonts/Raleway-Medium.ttf) format("truetype");
+    font-family: RobotoMono-Medium;
+    src: local(RobotoMono-Medium),
+        url(./assets/fonts/RobotoMono-Medium.woff2) format("woff2"),
+        url(./assets/fonts/RobotoMono-Medium.woff) format("woff"),
+        url(./assets/fonts/RobotoMono-Medium.ttf) format("truetype");
     font-weight: 500;
-    font-style: normal;
-    font-stretch: normal;
-}
-
-@font-face {
-    font-family: Raleway-Bold;
-    src: local(Raleway-Bold),
-        url(./assets/fonts/Raleway-Bold.woff2) format("woff2"),
-        url(./assets/fonts/Raleway-Bold.woff) format("woff"),
-        url(./assets/fonts/Raleway-Bold.ttf) format("truetype");
-    font-weight: bold;
     font-style: normal;
     font-stretch: normal;
 }

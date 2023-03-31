@@ -33,7 +33,6 @@
     --toastify-color-light: linear-gradient(90deg, #B8F1C6 -0.32%, #EBF8A1 99.68%);
 
     /* Fonts */
-    --regular: Raleway-Regular;
-    --medium: Raleway-Medium;
-    --bold: Raleway-Bold;
+    --regular: RobotoMono-Regular;
+    --medium: RobotoMono-Medium;
 }

@@ -1,5 +1,5 @@
 /* Controls */
-
+/*
 .button {
     cursor: pointer;
     background-color: var(--l2);
@@ -21,8 +21,54 @@
 
 .button:disabled:active {
     filter: brightness(1);
+} */
+
+
+/* UI Controls */
+
+
+.ui-button {
+    position: relative;
+    cursor: pointer;
+    background-image: linear-gradient(to right, #862e9c, #00abfb);
+    background-size: 300% 200%;
+    background-position: 100% 50%;
+    transition: background-position 0.3s linear;
+    padding: 7px 8px;
+    border-radius: 10px;
+    z-index: 99;
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+    align-items: center;
+    outline: none;
+    border: none;
+    color: white;
+    text-decoration: none;
 }
 
+.ui-button--disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.ui-button--pressed:not(.ui-button--disabled) {
+    background-position: 0% 50%;
+}
+
+.ui-button:hover:not(.ui-button--disabled) {
+    background-position: 0% 50%;
+}
+
+.ui-button__icon {
+    height: 25px;
+    width: 25px;
+}
+
+.link {
+    text-decoration: none;
+    color: #00abfb;
+}
 
 /* React Modal Transitions */
 
