@@ -47,6 +47,7 @@ export const MessagesPanel = () => {
     };
 
     useEffect(() => {
+        dispatch(deleteMessages());
         connectSocket();
         return () => {
             ws.current?.close();
