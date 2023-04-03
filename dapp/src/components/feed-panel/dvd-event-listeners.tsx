@@ -11,7 +11,7 @@ import { compactAddress } from "../../data/compact-address";
 import { pushNews } from "../../state/slices/feed-slice";
 import { retrieveGameState } from "../shared";
 import { getDVDContract } from "../../data/dao-vs-dao-contract";
-import { roundAtForthDecimal } from "../../data/utils";
+import { roundAtForthDecimal, zeroAddress } from "../../data/utils";
 import { NR_BLOCKS } from "./shared";
 
 export const DVDEventListener = () => {
@@ -111,7 +111,7 @@ export const DVDEventListener = () => {
         const newsPiece: INews = {
             id: uniqueId(),
             timestamp: isOldEvent ? undefined : Date.now(),
-            text: `${compactAddress(user)} has joined the game! It was referred by ${compactAddress(referrer)}. There are now ${usersCount.toNumber()} users playing DaoVsDao`,
+            text: `${compactAddress(user)} has joined the game!${referrer !== zeroAddress ? ` It was referred by ${compactAddress(referrer)}.` : ""} There are now ${usersCount.toNumber()} users playing DaoVsDao`,
             unread: !isOldEvent,
             epicenter: user,
             block: wholeEvent.blockNumber

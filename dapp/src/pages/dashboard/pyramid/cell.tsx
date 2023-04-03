@@ -68,12 +68,10 @@ export const Cell = ({ coords, position, distance }: ICellProps) => {
         strokeColor = defaultColor;
     }
 
-    const isSponsored = cellPlayer
-        && useSelector((state: RootState) => state.sponsoring.sponsoredPlayers)
-        [cellPlayer.userAddress];
-    const isSponsoring = cellPlayer
-        && useSelector((state: RootState) => state.sponsoring.sponsoringPlayers)
-        [cellPlayer.userAddress];
+    const sponsored = useSelector((state: RootState) => state.sponsoring.sponsoredPlayers);
+    const sponsoring = useSelector((state: RootState) => state.sponsoring.sponsoringPlayers);
+    const isSponsored = cellPlayer && sponsored[cellPlayer.userAddress];
+    const isSponsoring = cellPlayer && sponsoring[cellPlayer.userAddress];
 
     if (cellPlayer && hasRecoveryCoolDown(cellPlayer)) {
         cellTextColor = isLocalPlayerCell ? "#000" : "#495057";
