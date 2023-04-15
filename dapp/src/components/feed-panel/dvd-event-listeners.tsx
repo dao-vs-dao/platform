@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { MutableRefObject, useEffect, useRef } from "react";
 import { BigNumber, Event } from "ethers";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -18,9 +18,13 @@ export const DVDEventListener = () => {
     const dispatch = useDispatch();
     const { address } = useAccount();
     const provider = useProvider();
+    const contract: MutableRefObject<any> = useRef(null);
 
     const removeListeners = async () => {
-        const dvdContract = await getDVDContract(provider);
+        if (contract.current === null)
+            contract.current = await getDVDContract(provider);
+        const dvdContract = contract.current;
+
         dvdContract.removeAllListeners('RealmAdded');
         console.debug(`Removed listener for "RealmAdded" events`);
 
@@ -35,7 +39,9 @@ export const DVDEventListener = () => {
     };
 
     const addListeners = async () => {
-        const dvdContract = await getDVDContract(provider);
+        if (contract.current === null)
+            contract.current = await getDVDContract(provider);
+        const dvdContract = contract.current;
 
         dvdContract.on('RealmAdded', handleRealmAddedEvent);
         console.debug(`Listening to "RealmAdded" events`);

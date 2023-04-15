@@ -5,16 +5,23 @@ import { pyramidDistance } from "../../@types/i-coords";
 import { INews } from "../../@types/i-feed";
 import { IPlayer } from "../../@types/i-player";
 
-import { closeFeedModal, setNewsAsRead, toggleFeedModal } from "../../state/slices/feed-slice";
+import { cleanNews, closeFeedModal, setNewsAsRead, toggleFeedModal } from "../../state/slices/feed-slice";
 import { PlayersDict } from "../../state/slices/game-slice";
 import { RootState } from "../../state/store";
 import { Tooltip, TooltipSize } from "../tooltip";
 import { DVDEventListener } from "./dvd-event-listeners";
 import { SCEventListener } from "./sc-event-listeners";
 import "./styles.css";
+import { useAccount } from "wagmi";
 
 export const FeedPanel = () => {
+    const dispatch = useDispatch();
+    const { address } = useAccount();
     const isModalOpen = useSelector((state: RootState) => state.newsFeed.isModalOpen);
+
+    useEffect(() => {
+        dispatch(cleanNews());
+    }, [address]);
 
     return <>
         <DVDEventListener />

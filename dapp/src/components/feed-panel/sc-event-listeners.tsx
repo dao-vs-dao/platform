@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { MutableRefObject, useEffect, useRef } from "react";
 import { BigNumber, Event } from "ethers";
 import { useDispatch } from "react-redux";
 import { useAccount, useProvider } from "wagmi";
@@ -16,9 +16,13 @@ export const SCEventListener = () => {
     const dispatch = useDispatch();
     const provider = useProvider();
     const { address } = useAccount();
+    const contract: MutableRefObject<any> = useRef(null);
 
     const removeListeners = async () => {
-        const scContract = await getSCContract(provider);
+        if (contract.current === null)
+            contract.current = await getSCContract(provider);
+        const scContract = contract.current;
+
         scContract.removeAllListeners('CertificateEmitted');
         console.debug(`Removed listener for "CertificateEmitted" events`);
 
@@ -27,7 +31,9 @@ export const SCEventListener = () => {
     };
 
     const addListeners = async () => {
-        const scContract = await getSCContract(provider);
+        if (contract.current === null)
+            contract.current = await getSCContract(provider);
+        const scContract = contract.current;
 
         scContract.on('CertificateEmitted', handleCertificateEmittedEvent);
         console.debug(`Listening to "CertificateEmitted" events`);

@@ -19,6 +19,9 @@ export const feedSlice = createSlice({
     name: "feed",
     initialState,
     reducers: {
+        cleanNews: (state) => {
+            state.feed = [];
+        },
         openFeedModal: (state) => {
             state.isModalOpen = true;
         },
@@ -30,7 +33,9 @@ export const feedSlice = createSlice({
         },
         pushNews: (state, action: PayloadAction<{ news: INews }>) => {
             // insert the news keeping the array sorted by "block"
-            const indexToInsert = state.feed.findIndex((news) => news.block > action.payload.news.block);
+            const indexToInsert = state.feed.findIndex(
+                (news) => news.block > action.payload.news.block
+            );
             if (indexToInsert === -1) {
                 state.feed.push(action.payload.news);
             } else {
@@ -41,13 +46,20 @@ export const feedSlice = createSlice({
         },
         setNewsAsRead: (state, action: PayloadAction<{}>) => {
             const feedCopy = JSON.parse(JSON.stringify(state.feed));
-            for(var i = 0; i < feedCopy.length; i++) feedCopy[i].unread = false;
+            for (var i = 0; i < feedCopy.length; i++) feedCopy[i].unread = false;
             state.feed = feedCopy;
 
             state.unread = 0;
-        },
+        }
     }
 });
 
-export const { openFeedModal, closeFeedModal, pushNews, setNewsAsRead, toggleFeedModal } = feedSlice.actions;
+export const {
+    openFeedModal,
+    closeFeedModal,
+    pushNews,
+    setNewsAsRead,
+    toggleFeedModal,
+    cleanNews
+} = feedSlice.actions;
 export default feedSlice.reducer;
