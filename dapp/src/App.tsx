@@ -7,11 +7,10 @@ import { useAccount, useNetwork } from "wagmi";
 
 import { RootState } from "./state/store";
 import { setAuthAddress } from "./state/slices/player-slice";
-import { ToastContainer } from "react-toastify";
+import { Toaster } from 'react-hot-toast';
 import { UnauthenticatedPage } from "./pages/error-pages/unlogged";
 import { DisconnectedPage } from "./pages/error-pages/disconnected";
 import logo from "./assets/logo.svg";
-import "react-toastify/dist/ReactToastify.css";
 import "./fonts.css";
 import "./constants.css";
 import "./app.css";
@@ -105,7 +104,7 @@ export const App = ({ children }: { children: any; }) => {
                                 : children
                 }
             </div>
-            <ToastContainer theme="colored" />
+            <Toaster position="top-right" />
         </>
     );
 };
