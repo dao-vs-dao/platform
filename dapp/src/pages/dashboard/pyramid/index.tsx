@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { coordsFromLooseValues, ICoords, pyramidDistance } from "../../../@types/i-coords";
 import { zeroAddress } from "../../../data/utils";
@@ -6,6 +6,7 @@ import { zeroAddress } from "../../../data/utils";
 import { RootState } from "../../../state/store";
 import { Cell } from "./cell";
 import "./pyramid.css";
+import toast from "react-hot-toast";
 
 const MAX_DISTANCE_FROM_FOCUS = 320;
 
@@ -14,6 +15,17 @@ export const Pyramid = () => {
     const [realm, setRealm] = useState<number>(0);
     const currentPlayer = useSelector((state: RootState) => state.player.currentPlayer);
     const focus = useSelector((state: RootState) => state.game.focus);
+    const isLoading = !gameData || currentPlayer === undefined
+
+    useEffect(() => {
+        if (!isLoading && !currentPlayer) {
+            const text = "Pick an empty cell to start!";
+            toast.success(text, { duration: Infinity, icon: "🕹️", position: "bottom-center", id: "drawing-toast" });
+            return;
+        }
+
+        toast.dismiss("drawing-toast");
+    }, [currentPlayer]);
 
     const getCellPosition = (focusPoint: ICoords, coord: ICoords): { top: number, left: number; } => {
         const row = coord.row - focusPoint.row;
@@ -26,7 +38,7 @@ export const Pyramid = () => {
         return { top, left };
     };
 
-    if (!gameData || currentPlayer === undefined) return <div className="pyramid">Loading...</div>;
+    if (isLoading) return <div className="pyramid">Loading...</div>;
 
     /**
      * As it is not possible to print the whole pyramid, we need to have a focus
