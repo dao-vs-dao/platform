@@ -7,7 +7,7 @@ import { DaoVsDaoAbi } from "./abis/dao-vs-dao";
 import { bigNumberToFloat } from "./big-number-to-float";
 
 const POLYGON_DVD_ADDRESS = "0xAcd88F72B980ed144c7C037F6807E39026CFFd15";
-const MUMBAI_DVD_ADDRESS = "0xAcd88F72B980ed144c7C037F6807E39026CFFd15";
+const MUMBAI_DVD_ADDRESS = "0x4f12aEAC9629c7d3ED9939EFDFe3d3538c911cC1";
 const getContractAddress = () => (true ? MUMBAI_DVD_ADDRESS : POLYGON_DVD_ADDRESS);
 
 const zeroAddress = "0x0000000000000000000000000000000000000000";

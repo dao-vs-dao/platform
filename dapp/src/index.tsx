@@ -10,12 +10,13 @@ import { App } from './App';
 import { Dashboard } from "./pages/dashboard";
 import { store } from "./state/store";
 import { Web3Modal } from "@web3modal/react";
+import { blastSepolia } from "./data/chain-definitions";
 
 const container = document.getElementById('app-root');
 const root = createRoot(container!);
 
 // wallet config
-const chains: any = true ? [polygonMumbai] : [polygon];
+const chains: any = true ? [blastSepolia] : [polygon];
 const projectId = "c163ea8f4790cd069a88fef24f76f3f7";
 const { provider } = configureChains(chains, [w3mProvider({ projectId })]);
 const wagmiClient = createClient({

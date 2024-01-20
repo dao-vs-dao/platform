@@ -19,30 +19,7 @@ import "./shared.css";
 import { WrongChainPage } from "./pages/error-pages/wrong-chain";
 import { getLoggedUser } from "./services/authentication";
 import { ReferralLink } from "./components/referral";
-
-const blastSepolia = {
-    id: 168587773,
-    name: "Blast Sepolia",
-    network: "blast_sepolia",
-    nativeCurrency: {
-        name: "ETH",
-        symbol: "ETH",
-        decimals: 18,
-    },
-    rpcUrls: {},
-    blockExplorers: {
-        etherscan: {
-            name: "BlastScan",
-            url: "https://testnet.blastscan.io/",
-        },
-        default: {
-            name: "BlastScan",
-            url: "https://testnet.blastscan.io",
-        },
-    },
-    contracts: {},
-    testnet: true,
-};
+import { blastSepolia } from "./data/chain-definitions";
 
 export const App = ({ children }: { children: any; }) => {
     const dispatch = useDispatch();
@@ -51,7 +28,7 @@ export const App = ({ children }: { children: any; }) => {
     const [authChecked, setAuthChecked] = useState<boolean>(false);
     const authAddress = useSelector((state: RootState) => state.player.authAddress);
 
-    const chainToUse = true ? polygonMumbai : polygon;
+    const chainToUse = true ? blastSepolia : polygon;
     const isWrongChain = !!chain && chain.id !== chainToUse.id;
 
     const checkAuthentication = async () => {

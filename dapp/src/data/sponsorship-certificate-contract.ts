@@ -3,7 +3,7 @@ import { BNToPOJOCertificate, ISponsorshipCertificate } from "../@types/i-sponso
 import { SponsorshipCertificateABI } from "./abis/sponsorship-certificate";
 
 const POLYGON_SC_ADDRESS = "0x3EB16b38DfE7725e699e0A76Cf668a690ca0C34C";
-const MUMBAI_SC_ADDRESS = "0x3EB16b38DfE7725e699e0A76Cf668a690ca0C34C";
+const MUMBAI_SC_ADDRESS = "0x54e2B241a3f9Fc47Bb7408Aa348a76bF96956508";
 const getContractAddress = () => (true ? MUMBAI_SC_ADDRESS : POLYGON_SC_ADDRESS);
 
 
