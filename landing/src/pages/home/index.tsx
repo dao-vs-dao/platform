@@ -116,6 +116,10 @@ export const HomePage = () => {
                     Are you ready to prove your worth in the Battle of the DAOs?
                 </div>
             </div>
+
+            <div style={{display:"flex", justifyContent: "center", marginTop: "30px"}}>
+                <a href="https://game.daovsdao.xyz" className="ui-button ui-button--bigger">Play Now</a>
+            </div>
         </div>
     );
 };
