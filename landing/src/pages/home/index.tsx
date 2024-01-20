@@ -101,7 +101,7 @@ export const HomePage = () => {
                         <img className="chat-img" src={chatImage} />
                     </div>
                     <div className="home-page__element home-page__element--text">
-                        <ol start={2}>
+                        <ol start={3}>
                             <li>In-game chat: Communicate with neighboring players through the chat feature, and move conversations to more secure platforms if necessary.</li>
                             <li>News Feed: Keep up-to-date on the latest moves and strategies of other players in the game.</li>
                         </ol>
